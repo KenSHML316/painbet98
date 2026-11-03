@@ -1,0 +1,13 @@
+{
+  "name": "painbet98",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PAINBET '98 offline arcade casino (Capacitor Android wrapper)",
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}

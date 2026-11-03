@@ -1,0 +1,7 @@
+{
+  "appId": "com.painbet.game98",
+  "appName": "PAINBET 98",
+  "webDir": "www",
+  "backgroundColor": "#06030a",
+  "android": { "allowMixedContent": false }
+}
