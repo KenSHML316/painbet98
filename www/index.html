@@ -477,19 +477,23 @@
                     </section>
 
                     <!-- 10. DROP OR KEEP INTRO -->
-                    <section id="game-drop" class="game-section hidden h-full flex flex-col justify-around gap-2">
-                        <div class="flex items-center justify-between gap-2">
-                            <div id="dk-intro-cap"></div>
-                            <div class="flex-1 font-pixel text-[8px] leading-relaxed bg-[#f4e4b0] text-[#2a1500] border-2 border-[#5c3d00] p-2 text-center">
-                                AHOY, MATEY! I BE CAPTAIN BLACKGOLD, HOST OF <b>DROP OR KEEP</b>!<br>
-                                PICK 1 OF 26 CHESTS. EACH HOLDS A PRIZE FROM BROKE ($0) TO $1 MILLION. A SPOOKY MERCHANT PHONES AFTER EVERY ROUND: <b>DROP</b> YER CHEST FOR HIS OFFER, OR <b>KEEP</b> PLAYIN'.
+                    <section id="game-drop" class="game-section hidden h-full flex items-center justify-center relative">
+                        <div class="absolute inset-0 bg-black/95 z-40 flex flex-col items-center justify-center p-4 text-center">
+                            <div class="brass-box p-5 max-w-md w-full space-y-4 border-2 border-red-600 shadow-2xl">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-red-600 flex items-center justify-center font-pixel text-white text-lg animate-pulse">☠</div>
+                                <h2 class="font-vegas text-xl text-yellow-400 neon-gold">DROP OR KEEP</h2>
+                                <div class="font-pixel text-[9px] text-red-300 leading-relaxed bg-black/80 p-3 border border-red-800 rounded">
+                                    CAPTAIN BLACKGOLD'S RULES:<br/><br/>
+                                    PICK 1 OF 26 CHESTS. AFTER EACH ROUND A SPOOKY MERCHANT OFFERS A DEAL: DROP TO SELL, OR KEEP PLAYIN'.<br/><br/>
+                                    STAKE = YER WHOLE BANK: <b id="dk-intro-stake" class="text-yellow-300"></b><br/>
+                                    MINIMUM ENTRANCE: $2,000.<br/>
+                                    NO LEAVING. ABANDON SHIP = BANK STAYS $0.
+                                </div>
+                                <div class="flex gap-2 justify-center pt-2">
+                                    <button type="button" id="dk-go" onclick="dkStart()" class="vegas-btn !bg-green-700 !text-white !py-2 !px-4 !text-[9px]">ALL-IN &amp; SET SAIL</button>
+                                    <button type="button" onclick="switchTab('blackjack')" class="vegas-btn !bg-gray-800 !text-gray-300 !py-2 !px-4 !text-[9px]">BACK TO CASINO</button>
+                                </div>
                             </div>
-                            <div id="dk-intro-mer"></div>
-                        </div>
-                        <div id="dk-intro-board"></div>
-                        <div class="brass-box p-2 flex items-center justify-between gap-2">
-                            <div class="font-pixel text-[8px] text-red-300 leading-relaxed">STAKE = YER WHOLE BANK: <b id="dk-intro-stake" class="text-yellow-300"></b><br>MINIMUM ENTRANCE: $2,000.<br>NO LEAVING. ABANDON SHIP = BANK STAYS $0.</div>
-                            <button type="button" id="dk-go" onclick="dkStart()" class="vegas-btn !py-2 !px-4 !text-[10px]">ALL-IN &amp; SET SAIL ▶</button>
                         </div>
                     </section>
 
