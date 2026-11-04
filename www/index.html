@@ -1,8 +1,8 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>PAINBET '98</title>
-<link rel="stylesheet" href="tailwind.css">
-<script src="marked.min.js"></script>
-<link rel="stylesheet" href="fonts.css">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Cinzel:wght@700&display=swap" rel="stylesheet">
 <style>
         /* PAINBET '98 is a deliberate single-look arcade page: dark felt, brass and neon. */
         :root { color-scheme: dark; --ink: #06030a; --cream: #f1e5ac; --brass: #d4af37; --neon: #ff007f; }
@@ -655,7 +655,7 @@
 <script>
         /* --- GLOBAL BANKROLL & AUDIO ENGINE --- */
         let playerCash = 2000;
-        try { playerCash = parseInt(localStorage.getItem('painbet_cash')) || 2000; } catch (e) {}
+        try { playerCash = parseFloat(localStorage.getItem('painbet_cash')) || 2000; } catch (e) {}
         let sfxEnabled = true;
         let bgmEnabled = false;
         let audioCtx = null;
@@ -3867,6 +3867,11 @@ const css=document.createElement('style');css.textContent=`
 .dk-depr{animation:dksad 1.6s steps(2) infinite;filter:grayscale(.8) brightness(.75)}
 .dksvg .ctear{transform-box:fill-box}
 .dk-cry .ctear{display:block;animation:dkdrip .5s steps(3) infinite}
+@keyframes dkcscratch{0%,100%{transform:rotate(130deg)}50%{transform:rotate(160deg)}}
+@keyframes dkcclap{0%,100%{transform:rotate(55deg)}50%{transform:rotate(95deg)}}
+#dk-cap .arm{transform-origin:50% 0}
+#dk-cap.dk-scratch .arm{animation:dkcscratch .4s steps(2) infinite}
+#dk-cap.dk-clap .arm{animation:dkcclap .25s steps(2) infinite}
 @keyframes dkpop{0%{transform:scale(1.35)}100%{transform:scale(1)}}
 .dkch.open{animation:dkpop .3s steps(3);font-size:6px}
 @keyframes dkrattle{0%,100%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,-1px)}}
@@ -3885,8 +3890,45 @@ const css=document.createElement('style');css.textContent=`
 .bigchest.open .coin{display:block;animation:dkcoin .8s steps(4) infinite}
 .dk-scream{animation:dkscream .15s steps(2) infinite}.dk-scream .mouth{transform:scaleY(4.5)}`;
 document.head.appendChild(css);
+const css2=document.createElement('style');css2.textContent=`
+.dkcell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;background:rgba(10,30,60,.35);border:1px solid rgba(255,255,255,.08);padding:0;min-width:0}
+.dkcell:not(:disabled):hover{background:rgba(255,215,0,.18)}.dkcell:disabled{cursor:default}
+.dkwrap{position:relative;width:78%}.dkgirl{width:100%;height:auto;display:block}
+.dkchest{position:absolute;left:50%;top:56%;transform:translateX(-50%) scale(.34);transform-origin:50% 0;pointer-events:none}
+.dkv{position:absolute;top:0;left:0;right:0;text-align:center;font-family:'Press Start 2P',monospace;font-size:7px;color:#ffe066;text-shadow:1px 1px #000,-1px -1px #000;z-index:3}
+.dkn{position:absolute;right:2px;bottom:1px;font-family:'Press Start 2P',monospace;font-size:6px;color:#cdd6e4}
+.dkcell.mine{outline:2px solid #ffd700;box-shadow:0 0 10px #ffd700;z-index:2}.dkcell.mine .dkn:before{content:'\\2605 ';color:#ffd700}
+.dkcell.open .dkgirl{opacity:.6}
+@keyframes dklid{0%,45%{transform:rotate(0)}60%{transform:rotate(-8deg)}80%{transform:rotate(-30deg)}100%{transform:rotate(-55deg)}}
+.dkcell.opening{z-index:6;outline:2px solid #ffe066;background:rgba(255,224,102,.2)}
+.dkcell.opening .dkgirl{animation:dkbounce .5s steps(2) infinite}
+.dkcell.opening .dkchest{transform:translateX(-50%) scale(.6)}
+.bigchest.opening{animation:dkrattle .15s steps(2) infinite}
+.bigchest.opening .lid{animation:dklid var(--od,3s) steps(8) forwards}
+.bigchest.opening .glow{opacity:.9;animation:dkglow .3s steps(2) infinite}
+#dk-beach-cap .dksvg{width:130px;height:auto;display:block;margin:0 auto}
+#dk-hold{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none}
+.dkheld{position:absolute;left:50%;bottom:4px;transform:translateX(-50%) scale(1.55);transform-origin:50% 100%}
+.dkhand{position:absolute;bottom:34px;width:15px;height:13px;background:#f0b27a;border:2px solid #1b0f1e;box-sizing:border-box}
+.dkhand:before{content:'';position:absolute;left:-2px;right:-2px;bottom:100%;height:16px;background:#c4202e;border:2px solid #1b0f1e;border-bottom:0;box-sizing:border-box}
+.dkhand.l{left:calc(50% - 72px)}.dkhand.r{left:calc(50% + 57px)}
+#dk-scene{background:linear-gradient(#0e2a52,#173d70 50%,#6b4423 50%,#4f3016);border:2px solid #2c1604}
+.dksubs{background:rgba(0,0,0,.78);border-top:2px solid #6b4423;padding:3px 6px;min-height:34px}
+.dksub{font-family:'Press Start 2P',monospace;font-size:8px;line-height:1.7;text-align:center;text-shadow:2px 2px #000}
+.dksubC{color:#ffe9a8}.dksubM{color:#c9b8ff}
+#dk-mer.dk-dance .smile,#dk-mer.dk-happy .smile{display:block}
+#dk-mer .arm{transform-origin:50% 0}
+#dk-mer.dk-scratch .arm{animation:dkcscratch .4s steps(2) infinite}
+#dk-mer.dk-clap .arm{animation:dkcclap .25s steps(2) infinite}
+.dksub{min-height:14px}.dksubL{color:#ffb3d9}
+#dk-grid.dkhide .dkcell{transition:opacity .3s,transform .3s}
+#dk-grid.dkhide .dkcell:not(.in){opacity:0;transform:translateY(-30px)}
+#dk-grid.cheer .dkgirl{animation:dkbounce .5s steps(2) infinite}
+@keyframes dkheart{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+#dk-grid.love .dkwrap:before{content:'\\2665\\00a0\\00a0\\2665';position:absolute;left:0;right:0;top:19%;text-align:center;font-size:11px;line-height:1;color:#ff2d6f;text-shadow:0 0 3px #fff,1px 1px #000;z-index:4;animation:dkheart .4s steps(2) infinite;pointer-events:none}`;
+document.head.appendChild(css2);
 
-const CAP=()=>`<svg class="dksvg" viewBox="0 0 70 84" width="86" shape-rendering="crispEdges"><g class="a cap">
+const CAP_OLD=()=>`<svg class="dksvg" viewBox="0 0 70 84" width="86" shape-rendering="crispEdges"><g class="a cap">
 <rect x="12" y="2" width="38" height="7" fill="#15151c"/><rect x="6" y="9" width="50" height="7" fill="#15151c"/><rect x="28" y="4" width="6" height="4" fill="#f4f4f4"/><rect x="25" y="9" width="12" height="2" fill="#d4af37"/>
 <rect x="20" y="16" width="26" height="18" fill="#e0ac69"/><rect x="34" y="20" width="9" height="6" fill="#111"/><rect x="20" y="19" width="26" height="1" fill="#111"/><rect x="24" y="21" width="4" height="4" fill="#fff"/><rect x="26" y="22" width="2" height="2" fill="#111"/><rect x="30" y="26" width="5" height="4" fill="#c98f50"/><rect class="ctear" x="25" y="26" width="2" height="6" fill="#60a5fa"/>
 <rect x="18" y="30" width="30" height="14" fill="#8a2d12"/><rect x="26" y="34" width="14" height="3" class="mouth" fill="#2a0a05"/><rect x="26" y="34" width="14" height="1" fill="#fff"/>
@@ -3895,17 +3937,114 @@ const CAP=()=>`<svg class="dksvg" viewBox="0 0 70 84" width="86" shape-rendering
 <rect x="52" y="46" width="8" height="14" fill="#a0182a"/><rect x="58" y="58" width="3" height="10" fill="#cfd4dc"/><rect x="54" y="66" width="7" height="2" fill="#cfd4dc"/>
 <rect x="8" y="36" width="8" height="8" fill="#22c55e"/><rect x="6" y="38" width="3" height="3" fill="#facc15"/><rect x="12" y="38" width="2" height="2" fill="#000"/>
 <rect x="18" y="68" width="12" height="12" fill="#111"/><rect x="36" y="68" width="12" height="12" fill="#111"/><rect x="16" y="78" width="16" height="3" fill="#2b1a0a"/><rect x="34" y="78" width="16" height="3" fill="#2b1a0a"/></g></svg>`;
-const MER=()=>`<svg class="dksvg" viewBox="0 0 64 84" width="78" shape-rendering="crispEdges"><g class="a mer">
-<rect x="22" y="2" width="20" height="14" fill="#07070d"/><rect x="15" y="15" width="34" height="4" fill="#07070d"/><rect x="24" y="19" width="16" height="14" fill="#07070d"/>
-<rect x="27" y="23" width="3" height="2" fill="#ffe066"/><rect x="34" y="23" width="3" height="2" fill="#ffe066"/><g class="tears"><rect x="27" y="25" width="2" height="5" fill="#60a5fa"/><rect x="35" y="25" width="2" height="5" fill="#60a5fa"/></g><g class="smile"><rect x="27" y="28" width="10" height="2" fill="#ffe066"/><rect x="26" y="27" width="2" height="1" fill="#ffe066"/><rect x="36" y="27" width="2" height="1" fill="#ffe066"/></g>
-<rect x="14" y="33" width="36" height="46" fill="#07070d"/><rect x="12" y="76" width="40" height="5" fill="#07070d"/>
-<rect x="48" y="30" width="9" height="12" fill="#07070d"/><g class="ph"><rect x="54" y="24" width="4" height="12" fill="#6b3b12"/><rect x="52" y="22" width="8" height="3" fill="#6b3b12"/></g>
-<g class="arm"><rect x="6" y="40" width="8" height="22" fill="#07070d"/></g></g></svg>`;
+const CAP=()=>{
+  const W=43,H=58,OX=1,OY=1,Lr={st:0,arm:0,mouth:0,tear:0};
+  for(const k in Lr)Lr[k]=Array.from({length:H},()=>Array(W).fill(null));
+  let cur='st';
+  const R=(x,y,w,h,c,l)=>{const g=Lr[l||cur];for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)if(i+OX>=0&&i+OX<W&&j+OY<H)g[j+OY][i+OX]=c;};
+  const M=(x,y,w,h,c,l)=>{R(x,y,w,h,c,l);R(41-x-w,y,w,h,c,l);};
+  const OUT='#1b0f1e',SK='#f0b27a',SKS='#cf8650',GO='#f4c430',GOS='#b8860b',WH='#f6f6f6',RD='#c4202e',RDS='#8a1420',RDH='#e5495a',
+        HT='#23232e',HTH='#3d3d4d',BD='#15151b',BDH='#2e2e3a',PN='#74747e',PNS='#51515b',SH='#5a5a66',SHH='#7c7c88',BL='#c9ced6',BLH='#f1f4f8',
+        PR='#e3262c',PRD='#9a1319',BK='#f5b300',BT='#7a4a1e';
+  M(13,47,6,3,PN);M(17,47,2,3,PNS);M(13,50,6,3,WH);M(10,53,9,3,SH);M(11,53,4,1,SHH);M(14,53,2,2,GO);
+  R(10,30,21,15,RD);R(9,44,23,3,RD);R(26,31,5,14,RDS);M(11,44,2,1,RDH);R(12,32,2,5,RDH);
+  R(18,29,5,9,WH);R(19,31,1,6,'#d6d6df');R(16,30,1,15,GO);R(24,30,1,15,GO);
+  for(const y of [34,41]){R(13,y,1,1,GO);R(27,y,1,1,GO);}
+  R(11,38,19,2,BT);R(19,38,3,2,GO);
+  M(7,29,5,3,GO);for(const x of [7,9,11])M(x,32,1,1,GOS);
+  R(13,10,15,7,SK);R(13,10,15,1,SKS);M(13,14,2,2,SKS);
+  M(11,12,3,5,BD);R(11,15,19,4,BD);R(10,19,21,5,BD);R(11,24,19,3,BD);R(13,27,15,2,BD);R(16,29,9,1,BD);
+  M(14,19,2,3,BDH);R(12,22,3,1,BDH);R(26,22,3,1,BDH);
+  R(19,12,3,3,SKS);R(19,14,3,2,'#e8886a');
+  M(15,12,3,2,WH);M(16,12,1,2,'#111');
+  M(14,10,3,1,BD);M(17,11,3,1,BD);
+  R(14,2,13,3,HT);R(12,5,17,3,HT);R(7,8,27,1,GO);R(5,9,31,1,HT);R(16,3,5,1,HTH);
+  R(18,4,5,3,WH);R(19,5,1,1,'#111');R(21,5,1,1,'#111');R(19,6,3,1,'#cfcfd8');M(16,7,2,1,WH);
+  R(4,33,5,5,RD);R(8,31,3,3,RD);R(1,28,5,6,RD);R(1,28,5,1,GO);R(1,24,5,4,SK);R(1,26,5,1,SKS);
+  R(-1,23,9,1,GO);R(2,3,2,20,BL);R(2,4,1,18,BLH);R(2,2,1,1,BL);
+  R(31,20,5,9,PR);R(30,17,5,5,PR);R(35,18,3,2,BK);R(36,20,1,1,BK);R(32,18,1,1,WH);R(33,18,1,1,'#111');R(31,17,3,1,PRD);
+  R(31,22,2,5,PRD);R(32,29,2,4,PRD);R(31,29,3,1,GO);
+  cur='arm';R(31,31,4,6,RD);R(27,36,7,3,RD);R(27,36,1,3,GO);R(24,37,3,3,SK);R(24,39,3,1,SKS);
+  R(16,19,9,3,'#5a0a16','mouth');R(17,19,7,1,WH,'mouth');R(18,21,5,1,'#e0607a','mouth');
+  R(15,14,1,4,'#60a5fa','tear');R(15,18,1,1,'#bfdbfe','tear');
+  const filled=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&Object.values(Lr).some(g=>g[y][x]);
+  const nb=(g,x,y)=>!filled(x,y)&&[[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>g[y+dy]&&g[y+dy][x+dx]);
+  const rects=(g,out)=>{let s='';for(let y=0;y<H;y++){let x=0;const at=i=>out?(nb(g,i,y)?OUT:null):g[y][i];
+    while(x<W){const c=at(x);if(!c){x++;continue;}let e=x+1;while(e<W&&at(e)===c)e++;
+      s+=`<rect x="${x}" y="${y}" width="${e-x}" height="1" fill="${c}"/>`;x=e;}}return s;};
+  return `<svg class="dksvg" viewBox="0 0 ${W} ${H}" width="80" shape-rendering="crispEdges"><g class="a cap">${rects(Lr.st,1)}${rects(Lr.st,0)}<g class="arm">${rects(Lr.arm,1)}${rects(Lr.arm,0)}</g><g class="mouth">${rects(Lr.mouth,0)}</g><g class="ctear">${rects(Lr.tear,0)}</g></g></svg>`;
+};
+function SPR(W,H,names,draw,OUT){
+  const D=W-2,OX=1,OY=1,Lr={};
+  names.forEach(n=>Lr[n]=Array.from({length:H},()=>Array(W).fill(null)));
+  let cur=names[0];
+  const R=(x,y,w,h,c,l)=>{const g=Lr[l||cur];for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)if(i+OX>=0&&i+OX<W&&j+OY>=0&&j+OY<H)g[j+OY][i+OX]=c;};
+  const M=(x,y,w,h,c,l)=>{R(x,y,w,h,c,l);R(D-x-w,y,w,h,c,l);};
+  draw(R,M,n=>{cur=n;});
+  const filled=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&names.some(n=>Lr[n][y][x]);
+  const nb=(g,x,y)=>!filled(x,y)&&[[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>g[y+dy]&&g[y+dy][x+dx]);
+  const f=c=>c.startsWith('var(')?`style="fill:${c}"`:`fill="${c}"`;
+  const rects=(g,out)=>{let s='';for(let y=0;y<H;y++){let x=0;const at=i=>out?(nb(g,i,y)?OUT:null):g[y][i];
+    while(x<W){const c=at(x);if(!c){x++;continue;}let e=x+1;while(e<W&&at(e)===c)e++;
+      s+=`<rect x="${x}" y="${y}" width="${e-x}" height="1" ${f(c)}/>`;x=e;}}return s;};
+  const o={};names.forEach(n=>o[n]=rects(Lr[n],1)+rects(Lr[n],0));return o;
+}
+const GIRL=()=>{
+  const o=SPR(24,38,['st'],(R,M)=>{
+    const HAIR='var(--hair)',SKI='var(--skirt)',SKD='var(--skirt2)',SK='#f6c9a0',SKS='#dca27a',BLO='#f3ead6',COR='#5a3520',BOOT='#3b2a22',HAT='#3a2a24',FE='#f6edcf',GO='#f4c430';
+    R(15,0,4,1,FE);R(17,1,3,2,FE);R(18,3,2,1,FE);
+    R(6,2,10,3,HAT);R(6,4,10,1,'#7a5a3a');R(3,5,16,2,HAT);R(3,4,3,1,HAT);R(16,4,3,1,HAT);
+    R(3,6,16,13,HAIR);M(3,17,3,5,HAIR);
+    R(6,6,10,8,SK);R(6,6,10,1,HAIR);M(6,7,2,2,HAIR);
+    M(7,8,3,1,'#2a1a10');M(7,9,3,3,'#3a2414');M(8,9,1,1,'#fff');M(8,10,1,1,'#d99a2b');
+    M(6,12,2,1,'#f2a28a');R(10,11,2,1,SKS);R(9,12,4,1,'#b83a3a');R(9,14,4,1,SK);
+    R(5,15,12,1,SK);R(4,15,14,3,BLO);M(2,15,3,4,BLO);
+    R(6,17,10,7,COR);R(10,17,2,6,'#e8d9b8');R(10,19,2,1,COR);R(10,21,2,1,COR);R(6,23,10,1,'#3a2410');R(10,23,2,1,GO);
+    M(3,19,2,6,SK);M(3,21,2,2,'#3a2a24');
+    R(5,24,12,3,SKI);R(3,27,16,3,SKI);R(3,29,16,1,SKD);R(3,30,16,1,'#f1e2bd');
+    M(5,24,2,2,SK);
+    M(7,31,3,2,SK);M(6,33,5,5,BOOT);M(6,33,5,1,'#5a4033');
+  },'#1b0f1e');
+  return o.st;
+};
+const MER=()=>{
+  const o=SPR(43,58,['st','ph','arm','tears','smile'],(R,M,L)=>{
+    const B='#07070d',F='#171728',RM='#4c3f9a',WD='#a56a2f',WH='#c98f4c',WS='#7a4a1c';
+    // legs (striped hose) + shoes with rosettes
+    M(14,47,5,8,B);M(16,47,1,8,F);M(10,54,10,3,B);M(11,52,3,2,B);M(14,50,1,1,RM);
+    // fur coat: broad shoulders, narrower body, tabard skirt
+    R(7,24,27,6,B);R(10,29,21,16,B);R(9,44,23,4,B);
+    R(7,24,27,1,RM);M(10,29,1,15,RM);R(20,26,1,19,RM);R(10,37,21,1,RM);R(9,44,23,1,RM);
+    M(8,26,1,1,F);M(12,33,1,1,F);M(14,40,1,1,F);M(11,46,1,1,F);
+    R(25,38,6,5,F);R(25,38,6,1,RM);
+    // ruff collar (scalloped) + head
+    R(10,19,21,5,B);for(let x=10;x<31;x+=2)R(x,19,1,1,RM);R(10,23,21,1,RM);
+    R(15,12,11,8,B);R(26,16,2,2,B);
+    // beret + brim + big feather
+    R(12,7,17,5,B);R(11,10,19,2,B);R(11,11,19,1,RM);R(27,3,3,4,B);R(30,1,5,2,B);R(33,3,3,5,B);R(32,8,3,2,B);R(30,2,1,1,RM);
+    R(18,15,2,1,'#ffe066');R(22,15,2,1,'#ffe066');
+    // raised arm holding the wooden receiver at the ear
+    R(3,23,6,6,B);R(4,16,5,8,B);R(4,23,6,1,RM);
+    L('ph');R(8,12,3,9,WD);R(7,11,5,3,WS);R(7,19,5,3,WS);R(8,12,1,9,WH);
+    // other arm: holds a wooden candlestick phone like a cane
+    L('arm');R(32,26,5,9,B);R(33,35,4,3,B);R(31,37,8,5,WD);R(32,37,6,1,WH);R(35,32,1,5,WS);R(33,30,5,2,WS);R(34,29,3,1,WS);
+    L('tears');R(18,17,1,4,'#60a5fa');R(23,17,1,4,'#60a5fa');
+    L('smile');R(18,18,6,1,'#ffe066');R(17,17,1,1,'#ffe066');R(24,17,1,1,'#ffe066');
+  },'#5a4bb0');
+  return `<svg class="dksvg" viewBox="0 0 43 58" width="70" shape-rendering="crispEdges"><g class="a mer">${o.st}<g class="ph">${o.ph}</g><g class="arm">${o.arm}</g><g class="tears">${o.tears}</g><g class="smile">${o.smile}</g></g></svg>`;
+};
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function nice(v){if(v<100)return Math.max(1,Math.round(v));const p=Math.pow(10,Math.floor(Math.log10(v))-1);return Math.round(v/p)*p;}
-function say(t,who){if(D&&D.quiet)return;const m=who==='mer';$(m?'dk-sayM':'dk-sayC').innerText=(m?'MERCHANT: ':'CAPTAIN: ')+t;$('dk-sayC').style.opacity=m?.5:1;$('dk-sayM').style.opacity=m?1:.5;talk(m?'mer':'cap');}
-function both(c,m){if(D&&D.quiet)return;$('dk-sayC').innerText='CAPTAIN: '+c;$('dk-sayM').innerText='MERCHANT: '+m;$('dk-sayC').style.opacity=$('dk-sayM').style.opacity=1;talk('cap');talk('mer');}
+function lad(t,love){
+  if(!D||D.quiet)return;
+  const tok=D.ltok=Math.random(),g=$('dk-grid');
+  $('dk-sayL').innerText='LADIES: '+t;$('dk-sayC').style.opacity=$('dk-sayM').style.opacity=.5;
+  g.classList.add('cheer');if(love)g.classList.add('love');playSfx('win');
+  setTimeout(()=>{if(D&&D.ltok===tok){g.classList.remove('cheer','love');}},2400);
+}
+function say(t,who){if(D&&D.quiet)return;const m=who==='mer';{const l=$('dk-sayL');if(l)l.innerText='';}$(m?'dk-sayM':'dk-sayC').innerText=(m?'MERCHANT: ':'CAPTAIN: ')+t;$('dk-sayC').style.opacity=m?.5:1;$('dk-sayM').style.opacity=m?1:.5;talk(m?'mer':'cap');}
+function both(c,m){if(D&&D.quiet)return;{const l=$('dk-sayL');if(l)l.innerText='';}$('dk-sayC').innerText='CAPTAIN: '+c;$('dk-sayM').innerText='MERCHANT: '+m;$('dk-sayC').style.opacity=$('dk-sayM').style.opacity=1;talk('cap');talk('mer');}
 function talk(who){const e=$(who==='mer'?'dk-mer':'dk-cap');e.classList.add('dk-talk');setTimeout(()=>e.classList.remove('dk-talk'),1100);}
 function pose(el,cls,ms){const e=$(el);e.classList.add(cls);if(ms)setTimeout(()=>e.classList.remove(cls),ms);}
 function clr(){['dk-cap','dk-mer'].forEach(i=>$(i).className='');}
@@ -3913,36 +4052,49 @@ function others(){return ALL.length-1-D.open.size;}
 function planned(){const n=D.round<=4?SEQ[D.round-1]:1;return Math.max(1,Math.min(n,others()-1));}
 function remaining(){return D.v.filter((v,i)=>!D.open.has(i));}
 
+const HAIRS=['#b9773a','#4a2c1a','#d9b45a','#2a2220','#a3331f','#7b5a8a'];
+const SKIRTS=[['#8e2b2b','#6b1f1f'],['#2b5a8e','#1f4268'],['#2b8e5a','#1f6b43'],['#8e5a2b','#6b431f'],['#6a2b8e','#4f1f6b']];
+function showMer(on){const p=$('dk-pip');if(p)p.style.display=on?'block':'none';const m=$('dk-sayM');if(m)m.style.visibility=on?'visible':'hidden';}
 function build(){
   let o=$('dk-view');
   if(!o){o=document.createElement('div');o.id='dk-view';o.className='absolute inset-0 z-50 hidden';
     o.style.cssText='background:linear-gradient(#0b1b33,#14304f 40%,#3a2410 40%);';
     $('ball-view').insertAdjacentElement('beforebegin',o);}
-  o.innerHTML=`<div class="flex h-full w-full">
+  const girls=D.v.map((_,i)=>{const sk=SKIRTS[i%SKIRTS.length];
+    return `<button type="button" class="dkcell" id="dkh${i}" onclick="dkChest(${i})" style="--hair:${HAIRS[i%HAIRS.length]};--skirt:${sk[0]};--skirt2:${sk[1]}"><div class="dkwrap"><svg class="dkgirl" viewBox="0 0 24 38" shape-rendering="crispEdges"><use href="#dkg"/></svg><div class="dkchest"><div class="bigchest" id="dkx${i}"><div class="glow"></div><div class="base"></div><div class="lid"></div><div class="band"></div></div></div></div><span class="dkv" id="dkv${i}"></span><span class="dkn">${i+1}</span></button>`;}).join('');
+  o.innerHTML=`<svg width="0" height="0" style="position:absolute"><defs><symbol id="dkg" viewBox="0 0 24 38">${GIRL()}</symbol></defs></svg>
+  <div class="flex h-full w-full">
    <div id="dk-L" class="flex flex-col justify-around gap-[2px] p-1" style="width:15%"></div>
    <div class="flex-1 min-w-0 flex flex-col gap-1 p-1">
      <div class="flex justify-between font-pixel text-[7px] bg-black/70 border border-yellow-700 px-2 py-1"><span class="text-red-300">ALL-IN: <b id="dk-stake"></b></span><span class="text-green-300">TOP LEFT: <b id="dk-top"></b></span><span class="text-yellow-300">MY CHEST: <b id="dk-my">-</b></span></div>
-     <div class="flex items-end justify-between gap-1">
-       <div id="dk-cap">${CAP()}</div>
-       <div class="flex-1 flex flex-col gap-1 self-center min-w-0">
-         <div id="dk-sayC" class="font-pixel text-[7px] leading-relaxed bg-[#f4e4b0] text-[#2a1500] border-2 border-[#5c3d00] p-1.5 text-left min-h-[30px]"></div>
-         <div id="dk-sayM" class="font-pixel text-[7px] leading-relaxed bg-[#1b1030] text-[#ffe066] border-2 border-[#6b4fb0] p-1.5 text-right min-h-[30px]"></div></div>
-       <div id="dk-mer">${MER()}</div>
+     <div id="dk-scene" class="relative flex-1 min-h-0 flex items-end gap-1">
+       <div id="dk-cap" class="shrink-0">${CAP()}</div>
+       <div id="dk-grid" class="flex-1 grid grid-cols-7 gap-1 self-stretch">${girls}</div>
+       <div id="dk-pip" style="display:none;position:absolute;right:2px;top:2px;width:150px;z-index:20;border:3px solid #6b4fb0;background:#0a0f2a;box-shadow:0 0 12px #000">
+         <div class="font-pixel" style="font-size:6px;color:#c9b8ff;background:#1b1030;padding:3px;text-align:center">📞 MERCHANT'S SHIP</div>
+         <div style="position:relative;height:112px;overflow:hidden;background:linear-gradient(#0b1033,#1d1a4d 62%,#2a1c10 62%,#140d07)">
+           <div style="position:absolute;right:12px;top:10px;width:18px;height:18px;border-radius:50%;background:#f3ecc8;box-shadow:0 0 10px #f3ecc8"></div>
+           <div style="position:absolute;left:10px;top:0;bottom:34px;width:3px;background:#3b2a1a"></div>
+           <div style="position:absolute;left:0;right:0;bottom:0;height:34px;background:repeating-linear-gradient(90deg,#3a2614 0 10px,#2b1b0e 10px 11px)"></div>
+           <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center"><div id="dk-mer">${MER()}</div></div>
+         </div>
+       </div>
      </div>
-     <div id="dk-grid" class="grid grid-cols-7 gap-1"></div>
      <div id="dk-panel" class="bg-black/80 border-2 border-yellow-600 p-2 text-center font-pixel text-[8px] text-yellow-100 flex flex-col gap-1 items-center"></div>
+     <div class="dksubs"><div id="dk-sayC" class="dksub dksubC"></div><div id="dk-sayM" class="dksub dksubM"></div><div id="dk-sayL" class="dksub dksubL"></div></div>
    </div>
    <div id="dk-R" class="flex flex-col justify-around gap-[2px] p-1" style="width:17%"></div></div>`;
   $('dk-L').innerHTML=L.map(v=>`<div id="dkc${v}" class="dkc l">${fm(v)}</div>`).join('');
   $('dk-R').innerHTML=R.map(v=>`<div id="dkc${v}" class="dkc r">${fm(v)}</div>`).join('');
-  $('dk-grid').innerHTML=D.v.map((_,i)=>`<button type="button" class="dkch" id="dkh${i}" onclick="dkChest(${i})">${i+1}</button>`).join('');
   $('dk-stake').innerText=full(D.stake);
+  showMer(false);
   o.classList.remove('hidden');
 }
 function render(){
   ALL.forEach(v=>{const rm=remaining(),h2=Math.max(...rm);$('dkc'+v).classList.toggle('out',!rm.includes(v));$('dkc'+v).classList.toggle('hot',D.phase==='call'&&rm.includes(v)&&(v>=200000||(h2<200000&&v===h2&&v>1000)));});
-  D.v.forEach((v,i)=>{const b=$('dkh'+i);b.classList.toggle('mine',i===D.mine);b.classList.toggle('open',D.open.has(i)||D.reveal===true&&i===D.mine);
-    b.innerText=D.open.has(i)||(D.reveal&&i===D.mine)?fm(v):(i===D.mine?'★':i+1);
+  D.v.forEach((v,i)=>{const b=$('dkh'+i),op=D.open.has(i)||(D.reveal&&i===D.mine);
+    b.classList.toggle('mine',i===D.mine);b.classList.toggle('open',op);$('dkx'+i).classList.toggle('open',op);
+    $('dkv'+i).innerText=op?fm(v):'';
     b.disabled=D.phase!=='pick'&&!(D.phase==='open'&&i!==D.mine&&!D.open.has(i));});
   $('dk-top').innerText=fm(Math.max(...remaining()));
   $('dk-my').innerText=D.mine<0?'-':'#'+(D.mine+1);
@@ -3954,28 +4106,64 @@ window.dkStart=function(){
   if(D)return;
   if(playerCash<2000){setGameMsg("MINIMUM ENTRANCE IS $2,000! YE NEED MORE GOLD, MATEY.");playSfx('loss');return;}
   const stake=playerCash;playerCash=0;saveCash();
-  D={stake,v:shuffle(ALL.slice()),mine:-1,open:new Set(),round:1,left:0,offers:0,phase:'pick',last:0,final:false,reveal:false};
+  D={stake,v:shuffle(ALL.slice()),mine:-1,open:new Set(),round:1,left:0,offers:0,phase:'intro',last:0,final:false,reveal:false};
   build();clr();render();playSfx('win');
-  both("AHOY! YE STAKED EVERY COIN ON MY SHIP. THERE BE NO GOIN' BACK! PICK YER CHEST, 1 TO 26!","HEH HEH HEH... ALL YER GOLD ON THE TABLE, EH?");
-  panel('PICK YER OWN CHEST FIRST. IT HOLDS ONE OF THE PRIZES ON THE BOARD.<br>'+forfeitBtn());
   setGameMsg("DROP OR KEEP! ALL-IN ENTERED. NO LEAVING.");
+  intro();
 };
+/* ~10 second show intro, then the ladies come out, then the pick-a-chest phase. The merchant stays hidden. */
+/* four captain intros, one is picked at random each show; every one ends with the same set-sail line */
+const INTROS=[
+  ["AHOY, PIRATES! WELCOME ABOARD TO DROP OR KEEP!","TONIGHT, 26 CHESTS HOLD UP TO ONE MILLION DOLLARS!","BUT A SPOOKY MERCHANT WANTS TO BUY YER CHEST..."],
+  ["AHOY, PIRATES! EVERY GREAT VOYAGE STARTS WITH ONE BRAVE CHOICE!","FORTUNE FAVORS THE BOLD, AND TONIGHT THE SEA IS FULL OF GOLD!","SOME OF YE MAY WALK AWAY RICH... BUT ALL OF YE WILL WALK AWAY LEGENDS!"],
+  ["WELCOME ABOARD, PIRATES! AS BLACK BART THE PIRATE ONCE SAID...","\"A MERRY LIFE AND A SHORT ONE SHALL BE MY MOTTO!\"","SO LIVE BOLD TONIGHT! THE CHESTS WON'T OPEN THEMSELVES!"],
+  ["GATHER ROUND, PIRATES! CAN YE HEAR THE OLD SEA SONG?","\"FIFTEEN MEN ON THE DEAD MAN'S CHEST... YO HO HO AND A BOTTLE OF RUM!\"","TONIGHT, 26 CHESTS AND ONE SPOOKY MERCHANT ARE WAITIN' FOR YE!"]];
+function intro(){
+  const IN=INTROS[Math.floor(Math.random()*INTROS.length)];
+  const gid=D.id=Math.random(),g=$('dk-grid'),cells=[...g.children];
+  g.classList.add('dkhide');showMer(false);
+  panel('<div class="text-yellow-300">THE SHOW IS STARTING...</div>'+forfeitBtn());
+  const steps=[
+    [0,()=>say(IN[0])],
+    [2500,()=>say(IN[1])],
+    [4900,()=>say(IN[2])],
+    [7200,()=>{pose('dk-cap','dk-scream',2200);playSfx('win');say("SO PIRATES, TIME TO SET SAIL THE CHEST, IF... DROP OR KEEP!");}],
+    [9800,()=>{say("COME OUT, LADIES!");playSfx('card');cells.forEach((c,i)=>setTimeout(()=>{if(D&&D.id===gid){c.classList.add('in');if(i%4===0)playSfx('click');}},i*70));}],
+    [12200,()=>{pose('dk-cap','dk-bounce',1500);say("HI LADIES!");}],
+    [13800,()=>lad("HI CAPTAIN!")],
+    [16200,()=>{g.classList.remove('dkhide');D.phase='pick';render();say("NOW PICK YER OWN CHEST, 1 TO 26! IT HOLDS ONE OF THE PRIZES ON THE BOARD.");
+      panel('PICK YER OWN CHEST FIRST. IT HOLDS ONE OF THE PRIZES ON THE BOARD.<br>'+forfeitBtn());}]];
+  steps.forEach(([ms,f])=>setTimeout(()=>{if(D&&D.id===gid&&D.phase==='intro')f();},ms));
+}
 window.dkChest=function(i){
   if(!D)return;
   if(D.phase==='pick'){D.mine=i;D.phase='open';D.left=planned();render();playSfx('click');
     say(`CHEST #${i+1} BE YOURS, MATEY! NOW OPEN ${D.left} OTHER CHEST${D.left>1?'S':''}.`);
     panel(`OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''}<br>`+forfeitBtn());return;}
   if(D.phase!=='open'||i===D.mine||D.open.has(i))return;
-  D.open.add(i);D.left--;const v=D.v[i];render();clr();
+  D.phase='opening';const gid=D.id=Math.random();const cell=$('dkh'+i),ch=$('dkx'+i),ms=D.ghost?1000:3000;
+  if(ch.style.setProperty)ch.style.setProperty('--od',ms+'ms');
+  cell.classList.add('opening');ch.classList.add('opening');render();playSfx('click');
+  if(!D.ghost)say(`THE GIRL OPENS CHEST #${i+1}...`);
+  setTimeout(()=>{if(!D||D.id!==gid)return;cell.classList.remove('opening');ch.classList.remove('opening');revealChest(i);},ms);
+};
+function revealChest(i){
+  D.phase='open';D.open.add(i);D.left--;const v=D.v[i];render();clr();showMer(false);
   if(D.ghost){ghostOpen();return;}
+  const nextStep=()=>{if(D.left>0)panel(`OPEN <b class="text-green-300">${D.left}</b> MORE<br>`+forfeitBtn());else setTimeout(offer,900);};
   if(v===1){pose('dk-cap','dk-dance');pose('dk-mer','dk-cry');playSfx('win');both("EVERYONE IN THE EARTH SAY TOGETHER, GOODBYE... 1 DOLLAR!","WAAAH! NOT THE ONE DOLLAR!");}
-  else if(v>=200000){pose('dk-cap','dk-cry');pose('dk-mer','dk-happy');playSfx('loss');both(`ARRR! ${fm(v)} GONE FROM THE BOARD!`,"HEH HEH HEH! THERE GOES YER TREASURE!");}
+  else if(v===0){pose('dk-cap','dk-cry');playSfx('win');say("GLADLY YE ELIMINATED A BROKE CHEST, OR YE'D GO FROM RICHES TO RAGS RIGHT NOW! *PANICKING*");}
+  else if(v>=200000){pose('dk-cap','dk-cry');playSfx('loss');say(`ARRR! ${fm(v)} GONE FROM THE BOARD!`);
+    D.phase='react';const g2=D.id=Math.random();render();
+    panel('THE CAPTAIN REACTS...');
+    setTimeout(()=>{if(!D||D.id!==g2)return;showMer(true);pose('dk-mer','dk-happy');playSfx('card');say("HEH HEH HEH! THERE GOES YER TREASURE!",'mer');panel('THE MERCHANT REACTS...');},3000);
+    setTimeout(()=>{if(!D||D.id!==g2)return;showMer(false);clr();D.phase='open';render();nextStep();},8000);
+    return;}
   else if(v>=5000&&v<=100000){say(`THAT CHEST HELD ${fm(v)}.`);$('dk-sayM').innerText='';playSfx('card');}
   else{pose('dk-cap','dk-bounce');pose('dk-mer','dk-cry');playSfx('win');both(`YO HO HO! ONLY ${fm(v)}! THE BIG TREASURE STAYS IN PLAY!`,"WAAAH! ME POOR POCKETS...");}
   if(v===1){dollarTalk(()=>{D.phase='open';render();if(D.left>0)panel(`OPEN <b class="text-green-300">${D.left}</b> MORE<br>`+forfeitBtn());else offer();});return;}
-  if(D.left>0)panel(`OPEN <b class="text-green-300">${D.left}</b> MORE<br>`+forfeitBtn());
-  else setTimeout(offer,900);
-};
+  nextStep();
+}
 function dollarTalk(cb){
   const gid=D.id=Math.random();
   if(cb){D.phase='dialog';render();}
@@ -3989,47 +4177,91 @@ function dollarTalk(cb){
   at(3500,()=>{o.innerHTML=box("GOODBYE... 1 DOLLAR!",true);pose('dk-cap','dk-scream',2000);pose('dk-mer','dk-cry');playSfx('win');});
   at(5800,()=>{o.style.display='none';if(cb){clr();cb();}});
 }
-const OPEN2=["EVENIN' AGAIN, CAPTAIN. BUSINESS IS BUSINESS.","HELLO AGAIN, CAPTAIN. I'VE BEEN WATCHIN' YER CHESTS.","CAPTAIN! I TRUST YER NERVES ARE STEADY?","THE SEA IS DARK TONIGHT, CAPTAIN..."];
-const REPLY2=["AYE, I'M LISTENIN'.","SPEAK UP, YE SHADOWY SCOUNDREL.","MY NERVES BE IRON!","JUST NAME YER PRICE!"];
 function announce(bigs,hi){
-  const list=bigs.map(v=>fm(v)).join(', ');
-  if(bigs[0]>=1e6){pose('dk-cap','dk-scream',2500);playSfx('win');say(`ONE MILLION DOLLARS!!! STILL OUT THERE! SURVIVING: ${list}!`);}
-  else if(bigs.length)say(`THE BIG TREASURES STILL HIDDEN: ${list}!`);
+  const asc=bigs.slice().sort((a,b)=>a-b),W=v=>v>=1e6?'ONE MILLION DOLLARS':fm(v);
+  if(asc.length>=2){
+    const last=asc.pop();
+    if(last>=1e6){pose('dk-cap','dk-scream',2500);playSfx('win');}
+    say(`OK, NOW WE HAVE ${asc.map(fm).join(', ')} AND ${W(last)}!`);
+  }
+  else if(asc.length===1){if(asc[0]>=1e6){pose('dk-cap','dk-scream',2500);playSfx('win');}say(`OK, THE ONLY BIG TREASURE LEFT IS ${W(asc[0])}!`);}
   else if(hi>1000)say(`THE BIG ONES BE GONE, BUT THE BIGGEST TREASURE STILL HIDDEN IS ${full(hi)}!`);
   else say("THE BIG TREASURES BE GONE, MATEY. STAY SHARP!");
 }
 function offer(){
   if(!D||D.phase!=='open')return;
-  D.phase='call';const gid=D.id=Math.random();render();clr();
-  const bigs=remaining().filter(v=>v>=200000).sort((a,b)=>b-a),hi=Math.max(...remaining()),first=D.offers===0,k=D.round%4;
-  panel(`<div>${bigs.length?'SURVIVING BIG PRIZES ($200K+)':'HIGHEST PRIZE LEFT'}</div><div class="text-yellow-300 text-[10px]">${bigs.length?bigs.map(v=>fm(v)).join('   '):hi>1000?fm(hi):'NONE LEFT'}</div>`+forfeitBtn());
-  announce(bigs,hi);
-  const seq=[
-    ()=>{pose('dk-mer','dk-ring',1500);playSfx('card');say(first?"GOOD EVENIN', CAPTAIN! WHAT A FINE SHIP YE HAVE.":OPEN2[k],'mer');},
-    ()=>say(first?"AYE, YE SPOOKY LANDLUBBER. WHAT D'YE WANT?":REPLY2[k]),
-    ()=>say("INTERESTIN' BOARD YE HAVE THERE, CAPTAIN...",'mer'),
-    ()=>say("HMMM... LET ME COUNT ME COINS. HERE BE MY OFFER!",'mer')];
-  seq.forEach((f,n)=>setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')f();},3000+n*1500));
-  setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')makeOffer();},9000);
+  D.phase='call';const gid=D.id=Math.random();render();clr();showMer(false);
+  const bigs=remaining().filter(v=>v>=200000).sort((a,b)=>b-a),hi=Math.max(...remaining());
+  panel(`<div>${bigs.length?'SURVIVING BIG PRIZES ($200K+)':'HIGHEST PRIZE LEFT'}</div><div class="text-yellow-300 text-[10px]">${bigs.length?bigs.slice().sort((a,b)=>a-b).map(v=>fm(v)).join('   '):hi>1000?fm(hi):'NONE LEFT'}</div>`+forfeitBtn());
+  // merchant stays hidden while the captain reads the board, then the phone rings
+  const first=D.offers===0;   // the full greeting only happens on the 1st call
+  const ring=()=>{showMer(true);pose('dk-mer','dk-ring',2600);playSfx('card');};
+  const steps=first?[
+    [0,()=>announce(bigs,hi)],
+    [3800,()=>{ring();say("OK, I GUESS THE MERCHANT IS CALLING... WHAT WILL HE SAY TONIGHT?");}],
+    [6800,()=>say("HELLO THERE, MERCHANT!")],
+    [8600,()=>say("GOOD EVENING.",'mer')],
+    [10400,()=>say("MERCHANT SAYS GOOD EVENING, PIRATE AND LADIES!")],
+    [12800,()=>lad("GOOD EVENING, MERCHANT!",true)],
+    [15600,()=>say("HMMM... LET ME COUNT ME COINS. HERE BE MY OFFER!",'mer')]]
+  :[
+    [0,()=>announce(bigs,hi)],
+    [3800,()=>{ring();say("THE MERCHANT IS CALLING AGAIN...");}],
+    [6000,()=>say("HERE BE MY OFFER, CAPTAIN!",'mer')]];
+  steps.forEach(([ms,f])=>setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')f();},ms));
+  setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')makeOffer();},first?17400:8000);
+}
+const INIT_AVG=ALL.reduce((a,b)=>a+b,0)/ALL.length;
+/* Every offer is different (it follows what is left on the board and how many calls have happened) and never goes above $10,000. */
+function calcOffer(rem,n){
+  // only the BROKE ($0) and $1 chests left: the merchant's last offer is one cent
+  if(rem.length>0&&rem.every(v=>v<=1))return 0.01;
+  // a 500K or 1M chest is still hidden and everything else left is very low: this is the $10,000 top offer
+  if(rem.some(v=>v===500000||v===1000000)&&rem.every(v=>v>=500000||v<5000))return 10000;
+  const avg=rem.reduce((a,b)=>a+b,0)/rem.length,ratio=avg/INIT_AVG;
+  return Math.min(9500,Math.max(1,nice(10000*Math.min(1,.12*ratio+.035*n))));
 }
 function makeOffer(){
   const rem=remaining(),avg=rem.reduce((a,b)=>a+b,0)/rem.length;
   D.offers++;D.final=others()===1;
-  D.last=nice(avg*Math.min(.95,.12+.055*D.offers));
+  D.last=calcOffer(rem,D.offers);
   D.phase='offer';render();clr();
   both(D.final?"ONLY TWO CHESTS LEFT, MATEY! DROP OR KEEP?":"WELL, CAPTAIN? DROP OR KEEP?",`I'LL GIVE YE ${full(D.last)} FOR YER CHEST!`);
   panel(`<div>📞 MERCHANT OFFERS <b class="text-yellow-300 text-[11px]">${full(D.last)}</b></div>
    <div class="flex gap-2"><button type="button" class="vegas-btn !py-2 !px-4 !text-[10px]" onclick="dkDeal(1)">DROP (SELL)</button><button type="button" class="vegas-btn !py-2 !px-4 !text-[10px]" style="background:#2a4a8a;color:#fff" onclick="dkDeal(0)">KEEP</button></div>`+forfeitBtn());
 }
-function stage(html){let o=$('dk-stage');if(!o){o=document.createElement('div');o.id='dk-stage';o.style.cssText='position:absolute;left:0;right:0;top:110px;bottom:60px;z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center';$('dk-view').appendChild(o);}o.style.display=html?'flex':'none';o.innerHTML=html||'';}
-function stageCount(title,st,num){stage(`<div class="font-pixel" style="font-size:11px;color:#ffe066;text-shadow:2px 2px #000">${title}</div><div style="transform:scale(2.4);margin:46px 0">${bigChest(st)}</div><div class="font-pixel" style="font-size:30px;color:#fff3c4;text-shadow:3px 3px #000">${num}</div>`);}
+function stage(html){let o=$('dk-stage');if(!o){o=document.createElement('div');o.id='dk-stage';o.style.cssText='position:absolute;left:0;right:0;top:110px;bottom:60px;z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:space-between;pointer-events:none;text-align:center';$('dk-view').appendChild(o);}o.style.display=html?'flex':'none';o.innerHTML=html||'';}
+const BEACH_HTML=`<div style="position:absolute;left:10%;top:7%;width:34px;height:34px;border-radius:50%;background:#fff3a8;box-shadow:0 0 18px #fff3a8"></div>
+<div style="position:absolute;left:0;right:0;top:40%;height:14%;background:linear-gradient(#3aa0d6,#2a78a8)"></div>
+<div style="position:absolute;left:0;right:0;top:40%;height:14%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 8px,transparent 8px 26px);opacity:.5"></div>
+<div style="position:absolute;left:0;right:0;top:54%;bottom:0;background:linear-gradient(#ecd49a,#d3b273)"></div>
+<div style="position:absolute;right:9%;top:24%;width:7px;height:32%;background:#7a4a1e;transform:rotate(6deg);transform-origin:bottom"></div>
+<div style="position:absolute;right:calc(9% - 30px);top:21%;width:64px;height:12px;background:#2f8f3a;border-radius:8px;transform:rotate(-22deg)"></div>
+<div style="position:absolute;right:calc(9% - 22px);top:21%;width:64px;height:12px;background:#38a845;border-radius:8px;transform:rotate(22deg)"></div>
+<div style="position:absolute;right:calc(9% - 26px);top:19%;width:60px;height:12px;background:#2f8f3a;border-radius:8px"></div>
+<div style="position:absolute;left:16%;bottom:9%;width:10px;height:6px;background:#f4d9c9;border-radius:50%"></div>
+<div style="position:absolute;left:80%;bottom:13%;width:8px;height:5px;background:#f0b8a8;border-radius:50%"></div>
+<div style="position:absolute;left:0;right:0;top:3%;text-align:center;font-family:'Press Start 2P',monospace;font-size:7px;color:#fff;text-shadow:1px 1px #000">CAPTAIN'S BEACH</div>
+<div id="dk-beach-cap" style="position:absolute;left:50%;bottom:3%;transform:translateX(-50%);width:140px"><div id="dk-hold"></div></div>`;
+function beach(on){
+  const sc=$('dk-scene'),g=$('dk-grid'),cap=$('dk-cap');let b=$('dk-beach');
+  if(on){
+    if(!b){b=document.createElement('div');b.id='dk-beach';b.style.cssText='position:absolute;left:0;right:0;top:0;bottom:0;z-index:15;overflow:hidden;background:linear-gradient(#7ec8f2,#cdeefc 40%)';b.innerHTML=BEACH_HTML;sc.appendChild(b);}
+    b.style.display='block';g.style.display='none';
+    const w=$('dk-beach-cap'),h=$('dk-hold');if(w&&w.insertBefore)w.insertBefore(cap,h);
+  }else if(b){
+    b.style.display='none';g.style.display='';if(sc.insertBefore)sc.insertBefore(cap,g);
+  }
+}
+function holdChest(st){const h=$('dk-hold');if(h)h.innerHTML=st==null?'':`<div class="dkheld">${bigChest(st)}</div><div class="dkhand l"></div><div class="dkhand r"></div>`;}
+function stageCount(title,st,num){stage(`<div class="font-pixel" style="font-size:11px;color:#fff;text-shadow:2px 2px #000">${title}</div><div class="font-pixel" style="font-size:30px;color:#fff3c4;text-shadow:3px 3px #000">${num}</div>`);holdChest(st);}
 function bigChest(st){return `<div class="bigchest ${st}"><div class="glow"></div><div class="base"></div><div class="lid"></div><div class="band"></div><i class="coin" style="left:14px"></i><i class="coin" style="left:34px;animation-delay:.2s"></i><i class="coin" style="left:54px;animation-delay:.4s"></i></div>`;}
 function suspense(){
-  D.phase='reveal';const gid=D.id=Math.random();let t=15;render();
+  beach(true);showMer(true);D.phase='reveal';const gid=D.id=Math.random();let t=15;render();
   both("EVEN WITH ALL THOSE DEALS, YE KEPT YER CHEST TIL THE END! I'M PROUD OF YER PIRATE'S SOUL, EVERYONE!","HMPH... *GRUMBLE*");
   const lines=[[13,"👏 APPLAUSE, EVERYONE! APPLAUSE TO THIS PIRATE!! 👏","*SLOW CLAP*... HMPH."],[10,"NOW WE OPEN YER CHOSEN CHEST! DURING 10 SECONDS... THE CHEST YE'LL BRING HOME IS:!!","*NERVOUS SWEATING*"],[3,"...IS...!!!","THE LOCK IS CREAKIN'..."]];
-  const upd=()=>panel(`<div class="text-[10px]">${t>5?"👏 APPLAUSE FOR THIS PIRATE! 👏":"THE CHEST YE'LL BRING HOME IS:"}</div>${bigChest(t>5?'':t>3?'shake':'shake crack')}<div class="text-yellow-300 text-[16px]">${t>5?'':t}</div>`);
-  const updS=()=>{stageCount(t>10?"CAPTAIN IS SPEAKING...":"THE CHEST YE'LL BRING HOME IS:",t>10?'':t>5?'shake':'shake crack',t>10?'':t);panel(`<div class="text-[10px]">${t>10?"\ud83d\udc4f APPLAUSE FOR THIS PIRATE! \ud83d\udc4f":"OPENING YER CHEST #"+(D.mine+1)}</div>`);};
+  const upd=()=>panel(`<div class="text-[10px]">${t>5?"👏 APPLAUSE FOR THIS PIRATE! 👏":"THE CAPTAIN OPENS YER CHEST... IT IS:"}</div>${bigChest(t>5?'':t>3?'shake':'shake crack')}<div class="text-yellow-300 text-[16px]">${t>5?'':t}</div>`);
+  const updS=()=>{stageCount(t>10?"CAPTAIN IS SPEAKING...":"THE CAPTAIN OPENS YER CHEST... IT IS:",t>10?'':t>5?'shake':'shake crack',t>10?'':t);panel(`<div class="text-[10px]">${t>10?"\ud83d\udc4f APPLAUSE FOR THIS PIRATE! \ud83d\udc4f":"OPENING YER CHEST #"+(D.mine+1)}</div>`);};
   updS();
   const iv=setInterval(()=>{
     if(!D||D.id!==gid||D.phase!=='reveal'){clearInterval(iv);return;}
@@ -4040,7 +4272,7 @@ function suspense(){
 }
 const ghostPanel=()=>`SOLD FOR <b class="text-yellow-300">${full(D.sold)}</b> (BANKED)<br>OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''} TO SEE WHAT YE MISSED`;
 function dropSell(){
-  const pay=D.last;playerCash+=pay;saveCash();D.sold=pay;D.ghost=true;D.quiet=!D.final;clr();
+  const pay=D.last;playerCash=Math.round((playerCash+pay)*100)/100;saveCash();D.sold=pay;D.ghost=true;D.quiet=!D.final;clr();showMer(D.final);
   setGameMsg(`SOLD FOR ${full(pay)}! NOW SEE WHAT YE MISSED.`);playSfx('win');
   if(D.final){both(`CONGRATS, MATEY! YE WILL EARN ${full(pay)} DOLLARS! BUT WE STILL NEED TO OPEN THE CHEST...`,"HEH HEH HEH... PLEASURE DOIN' BUSINESS.");ghostReveal(10);return;}
   $('dk-sayC').innerText='';$('dk-sayM').innerText='';
@@ -4051,7 +4283,7 @@ function ghostOpen(){
   D.phase='ghost';const gid=D.id=Math.random();
   const rem=remaining(),avg=rem.reduce((a,b)=>a+b,0)/rem.length;
   D.offers++;D.final=others()===1;
-  const deal=nice(avg*Math.min(.95,.12+.055*D.offers));
+  const deal=calcOffer(rem,D.offers);
   render();
   panel(`SOLD FOR <b class="text-yellow-300">${full(D.sold)}</b><br>📞 THE MERCHANT'S DEAL WOULD'VE BEEN <b class="text-yellow-300 text-[11px]">${full(deal)}</b>`);
   setTimeout(()=>{if(!D||D.id!==gid)return;
@@ -4059,8 +4291,8 @@ function ghostOpen(){
     else{D.round++;D.phase='open';D.left=planned();render();panel(ghostPanel());}},2500);
 }
 function ghostReveal(sec){
-  sec=sec||5;D.phase='reveal';const gid=D.id=Math.random();let t=sec;render();
-  const upd=()=>{stageCount("THE CHEST YE SOLD IS OPENING...",t>(sec>5?5:2)?'shake':'shake crack',t);panel(`<div class="text-[10px]">OPENING YER SOLD CHEST #${D.mine+1}</div>`);};
+  sec=sec||5;beach(true);showMer(sec>5);D.phase='reveal';const gid=D.id=Math.random();let t=sec;render();
+  const upd=()=>{stageCount("THE CAPTAIN OPENS THE CHEST YE SOLD...",t>(sec>5?5:2)?'shake':'shake crack',t);panel(`<div class="text-[10px]">OPENING YER SOLD CHEST #${D.mine+1}</div>`);};
   upd();
   const iv=setInterval(()=>{
     if(!D||D.id!==gid||D.phase!=='reveal'){clearInterval(iv);return;}
@@ -4075,7 +4307,7 @@ window.dkDeal=function(drop){
   clr();
   if(drop)return dropSell();
   if(D.final)return suspense();
-  D.round++;D.phase='open';D.left=planned();render();playSfx('click');
+  showMer(false);D.round++;D.phase='open';D.left=planned();render();playSfx('click');
   both(`HARR! I KEEP MY CHEST! OPEN ${D.left} MORE.`,"HMPH. WE SHALL SEE, CAPTAIN...");
   panel(`OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''}<br>`+forfeitBtn());
 };
@@ -4099,7 +4331,7 @@ function finish(pay,how){
     both(how==='DROP'?`ARRR! MY CHEST HAD ${full(mine)}. I WAS FLEECED!`:`MY CHEST HOLDS ${full(mine)}...`,"HAHAHA! MINE ALL MINE!");}
   setGameMsg(`DROP OR KEEP: YOU WON ${full(pay)} (STAKE ${full(D.stake)}).`);
 
-  stage(`<div style="transform:scale(2.6);margin:56px 0 50px">${bigChest('open')}</div><div class="font-pixel" style="font-size:18px;color:#ffd700;text-shadow:3px 3px #000">${full(mine)}</div>`);
+  holdChest('open');stage(`<div class="font-pixel" style="font-size:11px;color:#fff;text-shadow:2px 2px #000">THE CAPTAIN OPENED IT!</div><div class="font-pixel" style="font-size:20px;color:#ffd700;text-shadow:3px 3px #000">${full(mine)}</div>`);
   panel(`<div class="text-yellow-300">YER CHEST HELD ${full(mine)}</div><div>${how==='DROP'?'SOLD FOR':'YER CHEST'} <b class="text-yellow-300 text-[12px]">${full(pay)}</b></div><div class="text-gray-300">STAKE WAS ${full(D.stake)} • NEW BANK ${full(playerCash)}</div>
    <button type="button" class="vegas-btn !py-2 !px-4 !text-[10px]" onclick="dkClose()">BACK TO THE CASINO</button>`);
 }
@@ -4123,23 +4355,5 @@ window.switchTab=function(id){if(D&&D.phase!=='done'&&id!=='drop'){setGameMsg("N
 window.__dk={get D(){return D;}};
 })();
 
-</script>
-<style>
-/* --- Android app: scale the whole cabinet to fit the phone screen, no scrolling --- */
-html,body{overflow:hidden!important;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation}
-.cabinet-scroll{position:relative!important;overflow:hidden!important}
-.arcade-enclosure{position:absolute!important;left:0;top:0;margin:0!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;transform-origin:0 0}
-</style>
-<script>
-(function(){
-  var DW=900,DH=506;
-  function fit(){
-    var e=document.querySelector('.arcade-enclosure');if(!e)return;
-    var vw=window.innerWidth,vh=window.innerHeight,s=Math.min(vw/DW,vh/DH);
-    e.style.width=(vw/s)+'px';e.style.height=(vh/s)+'px';e.style.transform='scale('+s+')';
-  }
-  window.addEventListener('resize',fit);window.addEventListener('orientationchange',function(){setTimeout(fit,200);});
-  document.addEventListener('DOMContentLoaded',fit);fit();setTimeout(fit,300);
-})();
 </script>
 </body></html>
