@@ -1,8 +1,8 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>PAINBET '98</title>
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tailwind.css">
+<script src="marked.min.js"></script>
+<link rel="stylesheet" href="fonts.css">
 <style>
         /* PAINBET '98 is a deliberate single-look arcade page: dark felt, brass and neon. */
         :root { color-scheme: dark; --ink: #06030a; --cream: #f1e5ac; --brass: #d4af37; --neon: #ff007f; }
@@ -515,9 +515,9 @@
                         </div>
 
                         <div class="flex flex-row gap-3 items-center justify-between w-full h-full overflow-hidden p-1">
-                            <div class="brass-box p-1.5 bg-emerald-950 border-2 border-yellow-600 flex items-center justify-center shrink-0 shadow-2xl">
-                                <div class="relative w-[440px] h-[440px] flex items-center justify-center">
-                                    <canvas id="mono-canvas" width="440" height="440" class="w-[440px] h-[440px] bg-[#CDE6D0] block shadow-lg rounded"></canvas>
+                            <div class="brass-box p-1.5 bg-emerald-950 border-2 border-yellow-600 flex items-center justify-center shrink-0 shadow-2xl mono-board-box">
+                                <div class="relative w-full h-full flex items-center justify-center">
+                                    <canvas id="mono-canvas" width="440" height="440" class="w-full h-full bg-[#CDE6D0] block shadow-lg rounded"></canvas>
                                 </div>
                             </div>
 
@@ -577,7 +577,7 @@
 
         <!-- LIVE BALL BET GAME -->
         <div id="ball-view" class="absolute inset-0 z-50 bg-black hidden">
-            <canvas id="bb-canvas" width="320" height="180" style="width:100%;height:100%;display:block;image-rendering:pixelated"></canvas>
+            <canvas id="bb-canvas" class="fit169" width="320" height="180" style="image-rendering:pixelated"></canvas>
             <div class="absolute bottom-6 left-2 brass-box px-2 py-1 font-pixel text-[7px] text-green-400 pointer-events-none" id="bb-hud-bet"></div>
             <div id="bb-result" class="absolute inset-0 bg-black/85 hidden flex items-center justify-center p-4">
                 <div class="brass-box p-4 text-center space-y-2 max-w-md w-full">
@@ -595,7 +595,7 @@
 
         <!-- LIVE HORSE RACE: covers the whole cabinet, so the casino menu disappears while it runs -->
         <div id="horse-race-view" class="absolute inset-0 z-50 bg-black hidden">
-            <canvas id="hr-canvas" width="480" height="270" onclick="horseCanvasClick(event)" title="Tap a lane to follow that horse" style="width:100%;height:100%;display:block;image-rendering:pixelated;cursor:pointer"></canvas>
+            <canvas id="hr-canvas" class="fit169" width="480" height="270" onclick="horseCanvasClick(event)" title="Tap a lane to follow that horse" style="image-rendering:pixelated;cursor:pointer"></canvas>
             <div class="absolute top-0 left-0 right-0 flex justify-between items-start gap-2 p-2 pointer-events-none">
                 <div class="brass-box p-1.5 font-pixel text-[7px] leading-relaxed max-w-[34%]">
                     <div class="text-yellow-400">YOUR PICK</div>
@@ -3926,7 +3926,84 @@ const css2=document.createElement('style');css2.textContent=`
 #dk-grid.cheer .dkgirl{animation:dkbounce .5s steps(2) infinite}
 @keyframes dkheart{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
 #dk-grid.love .dkwrap:before{content:'\\2665\\00a0\\00a0\\2665';position:absolute;left:0;right:0;top:19%;text-align:center;font-size:11px;line-height:1;color:#ff2d6f;text-shadow:0 0 3px #fff,1px 1px #000;z-index:4;animation:dkheart .4s steps(2) infinite;pointer-events:none}`;
+const css3=document.createElement('style');css3.textContent=`
+#dk-grid{min-height:0}
+.dkcell{min-height:0;overflow:hidden;justify-content:flex-end}
+.dkwrap{height:100%;width:auto;max-width:100%;aspect-ratio:24/38;margin:0 auto}
+.dkgirl{width:100%;height:100%}
+@keyframes dkpopin{0%{transform:scale(.4)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.dkpop{background:#1a0f05;border:4px solid #ffd700;padding:14px 26px;text-align:center;box-shadow:0 0 0 3px #000,0 0 26px #000;animation:dkpopin .3s steps(4)}
+.dkpopt{font-family:'Press Start 2P',monospace;font-size:10px;color:#ffe066;margin-bottom:10px;text-shadow:2px 2px #000}
+.dkpopv{font-family:'Press Start 2P',monospace;font-size:30px;color:#4ade80;text-shadow:3px 3px #000}
+.dkpops{font-family:'Press Start 2P',monospace;font-size:8px;color:#fff3c4;margin-bottom:12px}
+.dkpopb{font-family:'Press Start 2P',monospace;font-size:11px;padding:10px 18px;border:3px solid #000;cursor:pointer;box-shadow:inset -3px -3px 0 rgba(0,0,0,.35),inset 3px 3px 0 rgba(255,255,255,.3)}`;
+document.head.appendChild(css3);
 document.head.appendChild(css2);
+const css4=document.createElement('style');css4.textContent=`
+@keyframes dkjump{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.dk-jump{animation:dkjump .5s steps(4) infinite}
+#dk-cap.dk-jump ~ #dk-hold{animation:dkjump .5s steps(4) infinite}
+@keyframes dkno{0%,100%{transform:translateX(-2px) rotate(-7deg)}50%{transform:translateX(2px) rotate(7deg)}}
+.dksvg .head{transform-box:fill-box;transform-origin:50% 100%}
+.dk-no .head{animation:dkno .14s steps(2) infinite}
+@keyframes dkclapL{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+@keyframes dkclapR{0%,100%{transform:translateX(0)}50%{transform:translateX(-3px)}}
+.dksvg .clapL,.dksvg .clapR,.dksvg .larm{display:none}
+.dk-clap .clapL{display:block;animation:dkclapL .35s steps(2) infinite}
+.dk-clap .clapR{display:block;animation:dkclapR .35s steps(2) infinite}
+.dk-clap .arm,.dk-clap .ph,.dk-clap .sw,.dk-clap .larm,.dk-clap .rarm{display:none!important}
+#dk-beach-cap .sw{display:none!important}
+#dk-beach-cap.free .larm{display:block}
+#dk-beach-cap.holding .arm,#dk-beach-cap.holding .larm{display:none!important}
+.dkheld{bottom:4px;transform:translateX(-50%) scale(1.2)}
+.dkheld.down{left:50%;bottom:-14px;transform:translateX(-50%) scale(1.15)}
+.dkheld .bigchest .lid{transform-origin:100% 100%}
+.dkheld .bigchest.crack .lid{transform:rotate(5deg)}
+.dkheld .bigchest.lift .lid{transform:rotate(18deg)}
+.dkheld .bigchest.open .lid{transform:rotate(62deg)}
+.harms{position:absolute;left:0;top:0;overflow:visible}
+.oarm{transform-origin:38px 98px;transition:transform .3s steps(3)}
+#dk-hold.h-crack .oarm{transform:rotate(14deg)}
+#dk-hold.h-lift .oarm{transform:rotate(40deg)}
+.bgirl{position:absolute;width:5.2%;max-width:40px;height:auto;animation:dkjump .45s steps(4) infinite}`;
+document.head.appendChild(css4);
+const css5=document.createElement('style');css5.textContent=`
+.dkhrow{font-family:'Press Start 2P',monospace;font-size:11px;color:#fff3c4;margin:8px 0;text-shadow:2px 2px #000}.dkhrow b{color:#4ade80}
+.dkhist{display:flex;width:440px;max-width:calc(var(--lw,900px)*0.8);border:3px solid #6b4fb0;background:#0d0a1f}
+.dkhcol{flex:1;min-width:0;overflow:hidden;white-space:nowrap;padding:10px 0}
+.dkhcol+.dkhcol{border-left:3px solid #6b4fb0}
+.dkmq{display:inline-block;padding-left:100%;animation:dkmarq 6s linear infinite;font-family:'Press Start 2P',monospace;font-size:10px;color:#fff3c4}
+.dkmq span{margin-right:30px}.dkmq b{color:#4ade80}
+@keyframes dkmarq{from{transform:translateX(0)}to{transform:translateX(-100%)}}`;
+document.head.appendChild(css5);
+const css6=document.createElement('style');css6.textContent=`
+.dkt{display:none;position:absolute;top:26%;width:2px;height:6px;background:#60a5fa}.dkt.l{left:32%}.dkt.r{left:63%}
+#dk-grid.sob .dkt{display:block;animation:dkdrip .5s steps(3) infinite}
+#dk-grid.sob .dkgirl{animation:dksad .8s steps(2) infinite}
+.dkcell.mine .dkchest{display:none}
+#dk-cut{position:absolute;left:0;right:0;top:0;bottom:0;z-index:17;overflow:hidden;background:#2a170b}
+#dk-cutw{position:absolute;left:0;right:0;top:0;bottom:0;transform-origin:77% 60%;transition:transform .5s ease-out}
+#dk-cutw.zoom{transform:scale(2.5)}
+.cutbg{position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(#2d1a0e 0 54%,#6b4423 54% 100%)}
+.cutbg:before{content:'';position:absolute;left:0;right:0;top:0;height:54%;background:repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 2px,transparent 2px 26px)}
+.cutbg:after{content:'';position:absolute;left:0;right:0;top:54%;bottom:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 2px,transparent 2px 22px)}
+.cutlamp{position:absolute;top:7%;width:22px;height:22px;border-radius:50%;background:radial-gradient(#ffe9a0,#f5a623 60%,transparent 72%);box-shadow:0 0 36px 12px rgba(255,190,80,.35)}
+.cutshelf{position:absolute;left:0;right:0;top:30%;height:4px;background:#4a2f17}
+.cutshelf i{position:absolute;bottom:4px;width:8px;height:20px;border:2px solid #14301f}
+#dk-cut-cap{position:absolute;left:20%;bottom:9%}
+#dk-cut-cap .dksvg{width:112px;height:auto;display:block}
+.tslab{position:absolute;left:63%;width:31%;bottom:36%;height:14px;background:linear-gradient(#b27a3e,#8a5a2a);border:3px solid #3b2410;z-index:2}
+.tapron{position:absolute;left:64%;width:29%;bottom:26%;height:10%;background:#6b4423;border:3px solid #3b2410;z-index:1}
+.tleg{position:absolute;bottom:9%;width:11px;height:27%;background:#5a3818;border:2px solid #3b2410}
+.tprop{position:absolute;bottom:calc(36% + 17px);border:2px solid #14301f;z-index:3}
+.cutgirl{position:absolute;bottom:10%;width:60px;z-index:4;animation:cgwalk 10s linear forwards}
+.cgbob{animation:cgbob .4s steps(2) 17}
+.cutgirl .dkgirl{width:100%;height:auto;display:block}
+.cutchest{position:absolute;width:76px;height:56px;z-index:5;transform:scale(.62);transform-origin:50% 100%;animation:cgchest 10s linear forwards}
+@keyframes cgwalk{0%{left:-12%}70%{left:56%}100%{left:56%}}
+@keyframes cgbob{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
+@keyframes cgchest{0%{left:-11%;bottom:18%}70%{left:56%;bottom:18%}90%{left:76%;bottom:calc(36% + 17px)}100%{left:76%;bottom:calc(36% + 17px)}}`;
+document.head.appendChild(css6);
 
 const CAP_OLD=()=>`<svg class="dksvg" viewBox="0 0 70 84" width="86" shape-rendering="crispEdges"><g class="a cap">
 <rect x="12" y="2" width="38" height="7" fill="#15151c"/><rect x="6" y="9" width="50" height="7" fill="#15151c"/><rect x="28" y="4" width="6" height="4" fill="#f4f4f4"/><rect x="25" y="9" width="12" height="2" fill="#d4af37"/>
@@ -3938,41 +4015,36 @@ const CAP_OLD=()=>`<svg class="dksvg" viewBox="0 0 70 84" width="86" shape-rende
 <rect x="8" y="36" width="8" height="8" fill="#22c55e"/><rect x="6" y="38" width="3" height="3" fill="#facc15"/><rect x="12" y="38" width="2" height="2" fill="#000"/>
 <rect x="18" y="68" width="12" height="12" fill="#111"/><rect x="36" y="68" width="12" height="12" fill="#111"/><rect x="16" y="78" width="16" height="3" fill="#2b1a0a"/><rect x="34" y="78" width="16" height="3" fill="#2b1a0a"/></g></svg>`;
 const CAP=()=>{
-  const W=43,H=58,OX=1,OY=1,Lr={st:0,arm:0,mouth:0,tear:0};
-  for(const k in Lr)Lr[k]=Array.from({length:H},()=>Array(W).fill(null));
-  let cur='st';
-  const R=(x,y,w,h,c,l)=>{const g=Lr[l||cur];for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)if(i+OX>=0&&i+OX<W&&j+OY<H)g[j+OY][i+OX]=c;};
-  const M=(x,y,w,h,c,l)=>{R(x,y,w,h,c,l);R(41-x-w,y,w,h,c,l);};
-  const OUT='#1b0f1e',SK='#f0b27a',SKS='#cf8650',GO='#f4c430',GOS='#b8860b',WH='#f6f6f6',RD='#c4202e',RDS='#8a1420',RDH='#e5495a',
-        HT='#23232e',HTH='#3d3d4d',BD='#15151b',BDH='#2e2e3a',PN='#74747e',PNS='#51515b',SH='#5a5a66',SHH='#7c7c88',BL='#c9ced6',BLH='#f1f4f8',
-        PR='#e3262c',PRD='#9a1319',BK='#f5b300',BT='#7a4a1e';
-  M(13,47,6,3,PN);M(17,47,2,3,PNS);M(13,50,6,3,WH);M(10,53,9,3,SH);M(11,53,4,1,SHH);M(14,53,2,2,GO);
-  R(10,30,21,15,RD);R(9,44,23,3,RD);R(26,31,5,14,RDS);M(11,44,2,1,RDH);R(12,32,2,5,RDH);
-  R(18,29,5,9,WH);R(19,31,1,6,'#d6d6df');R(16,30,1,15,GO);R(24,30,1,15,GO);
-  for(const y of [34,41]){R(13,y,1,1,GO);R(27,y,1,1,GO);}
-  R(11,38,19,2,BT);R(19,38,3,2,GO);
-  M(7,29,5,3,GO);for(const x of [7,9,11])M(x,32,1,1,GOS);
-  R(13,10,15,7,SK);R(13,10,15,1,SKS);M(13,14,2,2,SKS);
-  M(11,12,3,5,BD);R(11,15,19,4,BD);R(10,19,21,5,BD);R(11,24,19,3,BD);R(13,27,15,2,BD);R(16,29,9,1,BD);
-  M(14,19,2,3,BDH);R(12,22,3,1,BDH);R(26,22,3,1,BDH);
-  R(19,12,3,3,SKS);R(19,14,3,2,'#e8886a');
-  M(15,12,3,2,WH);M(16,12,1,2,'#111');
-  M(14,10,3,1,BD);M(17,11,3,1,BD);
-  R(14,2,13,3,HT);R(12,5,17,3,HT);R(7,8,27,1,GO);R(5,9,31,1,HT);R(16,3,5,1,HTH);
-  R(18,4,5,3,WH);R(19,5,1,1,'#111');R(21,5,1,1,'#111');R(19,6,3,1,'#cfcfd8');M(16,7,2,1,WH);
-  R(4,33,5,5,RD);R(8,31,3,3,RD);R(1,28,5,6,RD);R(1,28,5,1,GO);R(1,24,5,4,SK);R(1,26,5,1,SKS);
-  R(-1,23,9,1,GO);R(2,3,2,20,BL);R(2,4,1,18,BLH);R(2,2,1,1,BL);
-  R(31,20,5,9,PR);R(30,17,5,5,PR);R(35,18,3,2,BK);R(36,20,1,1,BK);R(32,18,1,1,WH);R(33,18,1,1,'#111');R(31,17,3,1,PRD);
-  R(31,22,2,5,PRD);R(32,29,2,4,PRD);R(31,29,3,1,GO);
-  cur='arm';R(31,31,4,6,RD);R(27,36,7,3,RD);R(27,36,1,3,GO);R(24,37,3,3,SK);R(24,39,3,1,SKS);
-  R(16,19,9,3,'#5a0a16','mouth');R(17,19,7,1,WH,'mouth');R(18,21,5,1,'#e0607a','mouth');
-  R(15,14,1,4,'#60a5fa','tear');R(15,18,1,1,'#bfdbfe','tear');
-  const filled=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&Object.values(Lr).some(g=>g[y][x]);
-  const nb=(g,x,y)=>!filled(x,y)&&[[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>g[y+dy]&&g[y+dy][x+dx]);
-  const rects=(g,out)=>{let s='';for(let y=0;y<H;y++){let x=0;const at=i=>out?(nb(g,i,y)?OUT:null):g[y][i];
-    while(x<W){const c=at(x);if(!c){x++;continue;}let e=x+1;while(e<W&&at(e)===c)e++;
-      s+=`<rect x="${x}" y="${y}" width="${e-x}" height="1" fill="${c}"/>`;x=e;}}return s;};
-  return `<svg class="dksvg" viewBox="0 0 ${W} ${H}" width="80" shape-rendering="crispEdges"><g class="a cap">${rects(Lr.st,1)}${rects(Lr.st,0)}<g class="arm">${rects(Lr.arm,1)}${rects(Lr.arm,0)}</g><g class="mouth">${rects(Lr.mouth,0)}</g><g class="ctear">${rects(Lr.tear,0)}</g></g></svg>`;
+  const o=SPR(43,58,['st','larm','sw','arm','mouth','tear','clapL','clapR'],(R,M,L)=>{
+    const SK='#f0b27a',SKS='#cf8650',GO='#f4c430',GOS='#b8860b',WH='#f6f6f6',RD='#c4202e',RDS='#8a1420',RDH='#e5495a',
+          HT='#23232e',HTH='#3d3d4d',BD='#15151b',BDH='#2e2e3a',PN='#74747e',PNS='#51515b',SH='#5a5a66',SHH='#7c7c88',BL='#c9ced6',BLH='#f1f4f8',
+          PR='#e3262c',PRD='#9a1319',BK='#f5b300',BT='#7a4a1e';
+    M(13,47,6,3,PN);M(17,47,2,3,PNS);M(13,50,6,3,WH);M(10,53,9,3,SH);M(11,53,4,1,SHH);M(14,53,2,2,GO);
+    R(10,30,21,15,RD);R(9,44,23,3,RD);R(26,31,5,14,RDS);M(11,44,2,1,RDH);R(12,32,2,5,RDH);
+    R(18,29,5,9,WH);R(19,31,1,6,'#d6d6df');R(16,30,1,15,GO);R(24,30,1,15,GO);
+    for(const y of [34,41]){R(13,y,1,1,GO);R(27,y,1,1,GO);}
+    R(11,38,19,2,BT);R(19,38,3,2,GO);
+    M(7,29,5,3,GO);for(const x of [7,9,11])M(x,32,1,1,GOS);
+    R(13,10,15,7,SK);R(13,10,15,1,SKS);M(13,14,2,2,SKS);
+    M(11,12,3,5,BD);R(11,15,19,4,BD);R(10,19,21,5,BD);R(11,24,19,3,BD);R(13,27,15,2,BD);R(16,29,9,1,BD);
+    M(14,19,2,3,BDH);R(12,22,3,1,BDH);R(26,22,3,1,BDH);
+    R(19,12,3,3,SKS);R(19,14,3,2,'#e8886a');
+    M(15,12,3,2,WH);M(16,12,1,2,'#111');
+    M(14,10,3,1,BD);M(17,11,3,1,BD);
+    R(14,2,13,3,HT);R(12,5,17,3,HT);R(7,8,27,1,GO);R(5,9,31,1,HT);R(16,3,5,1,HTH);
+    R(18,4,5,3,WH);R(19,5,1,1,'#111');R(21,5,1,1,'#111');R(19,6,3,1,'#cfcfd8');M(16,7,2,1,WH);
+    R(31,20,5,9,PR);R(30,17,5,5,PR);R(35,18,3,2,BK);R(36,20,1,1,BK);R(32,18,1,1,WH);R(33,18,1,1,'#111');R(31,17,3,1,PRD);
+    R(31,22,2,5,PRD);R(32,29,2,4,PRD);R(31,29,3,1,GO);
+    L('larm');R(4,31,5,9,RD);R(4,39,5,1,GO);R(4,40,5,3,SK);
+    L('sw');R(4,33,5,5,RD);R(8,31,3,3,RD);R(1,28,5,6,RD);R(1,28,5,1,GO);R(1,24,5,4,SK);R(1,26,5,1,SKS);
+    R(-1,23,9,1,GO);R(2,3,2,20,BL);R(2,4,1,18,BLH);R(2,2,1,1,BL);
+    L('arm');R(31,31,4,6,RD);R(27,36,7,3,RD);R(27,36,1,3,GO);R(24,37,3,3,SK);R(24,39,3,1,SKS);
+    L('mouth');R(16,19,9,3,'#5a0a16');R(17,19,7,1,WH);R(18,21,5,1,'#e0607a');
+    L('tear');R(15,14,1,4,'#60a5fa');R(15,18,1,1,'#bfdbfe');
+    L('clapL');R(11,35,4,3,RD);R(15,34,3,4,SK);
+    L('clapR');R(26,35,4,3,RD);R(23,34,3,4,SK);
+  },'#1b0f1e');
+  return `<svg class="dksvg" viewBox="0 0 43 58" width="80" shape-rendering="crispEdges"><g class="a cap">${o.st}<g class="larm">${o.larm}</g><g class="sw">${o.sw}</g><g class="arm">${o.arm}</g><g class="mouth">${o.mouth}</g><g class="ctear">${o.tear}</g><g class="clapL">${o.clapL}</g><g class="clapR">${o.clapR}</g></g></svg>`;
 };
 function SPR(W,H,names,draw,OUT){
   const D=W-2,OX=1,OY=1,Lr={};
@@ -4008,41 +4080,39 @@ const GIRL=()=>{
   return o.st;
 };
 const MER=()=>{
-  const o=SPR(43,58,['st','ph','arm','tears','smile'],(R,M,L)=>{
-    const B='#07070d',F='#171728',RM='#4c3f9a',WD='#a56a2f',WH='#c98f4c',WS='#7a4a1c';
-    // legs (striped hose) + shoes with rosettes
+  const o=SPR(43,58,['st','rarm','head','ph','arm','tears','smile','clapL','clapR'],(R,M,L)=>{
+    const B='#07070d',F='#171728',RM='#4c3f9a',WD='#a56a2f',WH='#c98f4c',WS='#7a4a1c',HD='#3d3868',SL='#1d1b36';
     M(14,47,5,8,B);M(16,47,1,8,F);M(10,54,10,3,B);M(11,52,3,2,B);M(14,50,1,1,RM);
-    // fur coat: broad shoulders, narrower body, tabard skirt
     R(7,24,27,6,B);R(10,29,21,16,B);R(9,44,23,4,B);
     R(7,24,27,1,RM);M(10,29,1,15,RM);R(20,26,1,19,RM);R(10,37,21,1,RM);R(9,44,23,1,RM);
     M(8,26,1,1,F);M(12,33,1,1,F);M(14,40,1,1,F);M(11,46,1,1,F);
     R(25,38,6,5,F);R(25,38,6,1,RM);
-    // ruff collar (scalloped) + head
     R(10,19,21,5,B);for(let x=10;x<31;x+=2)R(x,19,1,1,RM);R(10,23,21,1,RM);
+    L('rarm');R(3,23,6,6,B);R(4,16,5,8,B);R(4,23,6,1,RM);
+    L('head');
     R(15,12,11,8,B);R(26,16,2,2,B);
-    // beret + brim + big feather
     R(12,7,17,5,B);R(11,10,19,2,B);R(11,11,19,1,RM);R(27,3,3,4,B);R(30,1,5,2,B);R(33,3,3,5,B);R(32,8,3,2,B);R(30,2,1,1,RM);
     R(18,15,2,1,'#ffe066');R(22,15,2,1,'#ffe066');
-    // raised arm holding the wooden receiver at the ear
-    R(3,23,6,6,B);R(4,16,5,8,B);R(4,23,6,1,RM);
     L('ph');R(8,12,3,9,WD);R(7,11,5,3,WS);R(7,19,5,3,WS);R(8,12,1,9,WH);
-    // other arm: holds a wooden candlestick phone like a cane
     L('arm');R(32,26,5,9,B);R(33,35,4,3,B);R(31,37,8,5,WD);R(32,37,6,1,WH);R(35,32,1,5,WS);R(33,30,5,2,WS);R(34,29,3,1,WS);
     L('tears');R(18,17,1,4,'#60a5fa');R(23,17,1,4,'#60a5fa');
     L('smile');R(18,18,6,1,'#ffe066');R(17,17,1,1,'#ffe066');R(24,17,1,1,'#ffe066');
+    L('clapL');R(11,35,4,3,SL);R(15,34,3,4,HD);
+    L('clapR');R(26,35,4,3,SL);R(23,34,3,4,HD);
   },'#5a4bb0');
-  return `<svg class="dksvg" viewBox="0 0 43 58" width="70" shape-rendering="crispEdges"><g class="a mer">${o.st}<g class="ph">${o.ph}</g><g class="arm">${o.arm}</g><g class="tears">${o.tears}</g><g class="smile">${o.smile}</g></g></svg>`;
+  return `<svg class="dksvg" viewBox="0 0 43 58" width="70" shape-rendering="crispEdges"><g class="a mer">${o.st}<g class="rarm">${o.rarm}</g><g class="head">${o.head}<g class="tears">${o.tears}</g><g class="smile">${o.smile}</g></g><g class="ph">${o.ph}</g><g class="arm">${o.arm}</g><g class="clapL">${o.clapL}</g><g class="clapR">${o.clapR}</g></g></svg>`;
 };
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function nice(v){if(v<100)return Math.max(1,Math.round(v));const p=Math.pow(10,Math.floor(Math.log10(v))-1);return Math.round(v/p)*p;}
-function lad(t,love){
+function lad(t,love,ms,tag){
   if(!D||D.quiet)return;
   const tok=D.ltok=Math.random(),g=$('dk-grid');
-  $('dk-sayL').innerText='LADIES: '+t;$('dk-sayC').style.opacity=$('dk-sayM').style.opacity=.5;
+  $('dk-sayL').innerText=(tag||'LADIES')+': '+t;$('dk-sayC').style.opacity=$('dk-sayM').style.opacity=.5;
   g.classList.add('cheer');if(love)g.classList.add('love');playSfx('win');
-  setTimeout(()=>{if(D&&D.ltok===tok){g.classList.remove('cheer','love');}},2400);
+  setTimeout(()=>{if(D&&D.ltok===tok){g.classList.remove('cheer','love');}},ms||2400);
 }
+function ladJump(ms){if(!D||D.quiet)return;const tok=D.ltok=Math.random(),g=$('dk-grid');g.classList.add('cheer');setTimeout(()=>{if(D&&D.ltok===tok)g.classList.remove('cheer','love');},ms);}
 function say(t,who){if(D&&D.quiet)return;const m=who==='mer';{const l=$('dk-sayL');if(l)l.innerText='';}$(m?'dk-sayM':'dk-sayC').innerText=(m?'MERCHANT: ':'CAPTAIN: ')+t;$('dk-sayC').style.opacity=m?.5:1;$('dk-sayM').style.opacity=m?1:.5;talk(m?'mer':'cap');}
 function both(c,m){if(D&&D.quiet)return;{const l=$('dk-sayL');if(l)l.innerText='';}$('dk-sayC').innerText='CAPTAIN: '+c;$('dk-sayM').innerText='MERCHANT: '+m;$('dk-sayC').style.opacity=$('dk-sayM').style.opacity=1;talk('cap');talk('mer');}
 function talk(who){const e=$(who==='mer'?'dk-mer':'dk-cap');e.classList.add('dk-talk');setTimeout(()=>e.classList.remove('dk-talk'),1100);}
@@ -4061,7 +4131,7 @@ function build(){
     o.style.cssText='background:linear-gradient(#0b1b33,#14304f 40%,#3a2410 40%);';
     $('ball-view').insertAdjacentElement('beforebegin',o);}
   const girls=D.v.map((_,i)=>{const sk=SKIRTS[i%SKIRTS.length];
-    return `<button type="button" class="dkcell" id="dkh${i}" onclick="dkChest(${i})" style="--hair:${HAIRS[i%HAIRS.length]};--skirt:${sk[0]};--skirt2:${sk[1]}"><div class="dkwrap"><svg class="dkgirl" viewBox="0 0 24 38" shape-rendering="crispEdges"><use href="#dkg"/></svg><div class="dkchest"><div class="bigchest" id="dkx${i}"><div class="glow"></div><div class="base"></div><div class="lid"></div><div class="band"></div></div></div></div><span class="dkv" id="dkv${i}"></span><span class="dkn">${i+1}</span></button>`;}).join('');
+    return `<button type="button" class="dkcell" id="dkh${i}" onclick="dkChest(${i})" style="--hair:${HAIRS[i%HAIRS.length]};--skirt:${sk[0]};--skirt2:${sk[1]}"><div class="dkwrap"><svg class="dkgirl" viewBox="0 0 24 38" shape-rendering="crispEdges"><use href="#dkg"/></svg><div class="dkchest"><div class="bigchest" id="dkx${i}"><div class="glow"></div><div class="base"></div><div class="lid"></div><div class="band"></div></div></div><i class="dkt l"></i><i class="dkt r"></i></div><span class="dkv" id="dkv${i}"></span><span class="dkn">${i+1}</span></button>`;}).join('');
   o.innerHTML=`<svg width="0" height="0" style="position:absolute"><defs><symbol id="dkg" viewBox="0 0 24 38">${GIRL()}</symbol></defs></svg>
   <div class="flex h-full w-full">
    <div id="dk-L" class="flex flex-col justify-around gap-[2px] p-1" style="width:15%"></div>
@@ -4069,7 +4139,7 @@ function build(){
      <div class="flex justify-between font-pixel text-[7px] bg-black/70 border border-yellow-700 px-2 py-1"><span class="text-red-300">ALL-IN: <b id="dk-stake"></b></span><span class="text-green-300">TOP LEFT: <b id="dk-top"></b></span><span class="text-yellow-300">MY CHEST: <b id="dk-my">-</b></span></div>
      <div id="dk-scene" class="relative flex-1 min-h-0 flex items-end gap-1">
        <div id="dk-cap" class="shrink-0">${CAP()}</div>
-       <div id="dk-grid" class="flex-1 grid grid-cols-7 gap-1 self-stretch">${girls}</div>
+       <div id="dk-grid" class="flex-1 grid grid-cols-7 gap-1 self-stretch" style="grid-template-rows:repeat(4,minmax(0,1fr));min-height:0">${girls}</div>
        <div id="dk-pip" style="display:none;position:absolute;right:2px;top:2px;width:150px;z-index:20;border:3px solid #6b4fb0;background:#0a0f2a;box-shadow:0 0 12px #000">
          <div class="font-pixel" style="font-size:6px;color:#c9b8ff;background:#1b1030;padding:3px;text-align:center">📞 MERCHANT'S SHIP</div>
          <div style="position:relative;height:112px;overflow:hidden;background:linear-gradient(#0b1033,#1d1a4d 62%,#2a1c10 62%,#140d07)">
@@ -4099,7 +4169,7 @@ function render(){
   $('dk-top').innerText=fm(Math.max(...remaining()));
   $('dk-my').innerText=D.mine<0?'-':'#'+(D.mine+1);
 }
-function panel(html){$('dk-panel').innerHTML=html;}
+function panel(html){$('dk-panel').innerHTML='<div>'+html+'</div>';}
 function forfeitBtn(){return `<button type="button" onclick="dkForfeit()" class="font-pixel text-[6px] text-red-400 underline">ABANDON SHIP (BANK STAYS $0)</button>`;}
 
 window.dkStart=function(){
@@ -4135,11 +4205,40 @@ function intro(){
       panel('PICK YER OWN CHEST FIRST. IT HOLDS ONE OF THE PRIZES ON THE BOARD.<br>'+forfeitBtn());}]];
   steps.forEach(([ms,f])=>setTimeout(()=>{if(D&&D.id===gid&&D.phase==='intro')f();},ms));
 }
+function ladSob(on){const g=$('dk-grid');if(g)g.classList.toggle('sob',on);const l=$('dk-sayL');if(l)l.innerText=on?'LADIES: *SOBBING*':'';}
+const CUT_HTML=vars=>`<div id="dk-cutw"><div class="cutbg"></div>
+<div class="cutlamp" style="left:14%"></div><div class="cutlamp" style="left:48%"></div><div class="cutlamp" style="left:84%"></div>
+<div class="cutshelf"><i style="left:4%;background:#2f8f5a"></i><i style="left:9%;background:#c0392b"></i><i style="left:14%;background:#d4af37"></i><i style="left:62%;background:#2b5a8e"></i><i style="left:67%;background:#2f8f5a"></i><i style="left:72%;background:#c0392b"></i></div>
+<div id="dk-cut-cap"></div>
+<div class="tleg" style="left:65%"></div><div class="tleg" style="left:91%"></div>
+<div class="tapron"></div><div class="tslab"></div>
+<i class="tprop" style="left:66%;width:9px;height:24px;background:#2f8f5a"></i><i class="tprop" style="left:90%;width:14px;height:13px;background:#d4af37"></i>
+<div class="cutgirl" style="${vars}"><div class="cgbob"><svg class="dkgirl" viewBox="0 0 24 38" shape-rendering="crispEdges"><use href="#dkg"/></svg></div></div>
+<div class="cutchest"><div class="bigchest"><div class="glow"></div><div class="base"></div><div class="lid"></div><div class="band"></div></div></div></div>`;
+function cutscene(i,cb){
+  const sc=$('dk-scene'),g=$('dk-grid'),cap=$('dk-cap'),cell=$('dkh'+i);
+  const gid=D.id=Math.random(),at=(ms,f)=>setTimeout(()=>{if(D&&D.id===gid)f();},ms);
+  const vars=(cell&&cell.getAttribute&&cell.getAttribute('style'))||'';
+  const c=document.createElement('div');c.id='dk-cut';c.innerHTML=CUT_HTML(vars);sc.appendChild(c);
+  g.style.display='none';
+  const w=$('dk-cut-cap');if(w&&w.appendChild)w.appendChild(cap);
+  say(`CHEST #${i+1} BE YOURS, MATEY! ONE OF MY LADIES BRINGS IT TO THE BAR TABLE...`);
+  panel('THE CHOSEN CHEST IS ON ITS WAY...');
+  at(10000,()=>{const z=$('dk-cutw'),ch=z&&z.querySelector&&z.querySelector('.cutchest');
+    if(z){z.classList.add('zoom');if(ch){const W=z.offsetWidth,H=z.offsetHeight,cx=ch.offsetLeft+38,cy=ch.offsetTop+38,k=2.6;z.style.transformOrigin='0 0';z.style.transform=`translate(${W/2-cx*k}px,${H/2-cy*k}px) scale(${k})`;}}
+    say("THERE IT SITS... SAFE AND SOUND. THAT ONE IS YOURS, MATEY.");panel('YER CHOSEN CHEST');});
+  at(13500,()=>{
+    if(sc.insertBefore)sc.insertBefore(cap,g);g.style.display='';
+    if(c.remove)c.remove();
+    cb();
+  });
+}
 window.dkChest=function(i){
   if(!D)return;
-  if(D.phase==='pick'){D.mine=i;D.phase='open';D.left=planned();render();playSfx('click');
-    say(`CHEST #${i+1} BE YOURS, MATEY! NOW OPEN ${D.left} OTHER CHEST${D.left>1?'S':''}.`);
-    panel(`OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''}<br>`+forfeitBtn());return;}
+  if(D.phase==='pick'){D.mine=i;D.phase='scene';render();playSfx('click');
+    cutscene(i,()=>{D.phase='open';D.left=planned();render();
+      say(`CHEST #${i+1} BE YOURS, MATEY! NOW OPEN ${D.left} OTHER CHEST${D.left>1?'S':''}.`);
+      panel(`OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''}<br>`+forfeitBtn());});return;}
   if(D.phase!=='open'||i===D.mine||D.open.has(i))return;
   D.phase='opening';const gid=D.id=Math.random();const cell=$('dkh'+i),ch=$('dkx'+i),ms=D.ghost?1000:3000;
   if(ch.style.setProperty)ch.style.setProperty('--od',ms+'ms');
@@ -4153,6 +4252,13 @@ function revealChest(i){
   const nextStep=()=>{if(D.left>0)panel(`OPEN <b class="text-green-300">${D.left}</b> MORE<br>`+forfeitBtn());else setTimeout(offer,900);};
   if(v===1){pose('dk-cap','dk-dance');pose('dk-mer','dk-cry');playSfx('win');both("EVERYONE IN THE EARTH SAY TOGETHER, GOODBYE... 1 DOLLAR!","WAAAH! NOT THE ONE DOLLAR!");}
   else if(v===0){pose('dk-cap','dk-cry');playSfx('win');say("GLADLY YE ELIMINATED A BROKE CHEST, OR YE'D GO FROM RICHES TO RAGS RIGHT NOW! *PANICKING*");}
+  else if(v>=1000000){pose('dk-cap','dk-cry');playSfx('loss');say("NO... THIS CAN'T BE... *CRYING*");
+    D.phase='react';const g3=D.id=Math.random();render();ladSob(true);
+    panel('THE CAPTAIN IS HEARTBROKEN...');
+    setTimeout(()=>{if(!D||D.id!==g3)return;showMer(true);pose('dk-mer','dk-dance');playSfx('card');say("HAHAHA! THE MILLION IS GONE! *CELEBRATING*",'mer');panel('THE MERCHANT CELEBRATES...');},3000);
+    setTimeout(()=>{if(!D||D.id!==g3)return;showMer(false);clr();pose('dk-cap','dk-cry');say("GOODBYE... 1 MILLION DOLLARS");panel('FAREWELL, ONE MILLION...');},6000);
+    setTimeout(()=>{if(!D||D.id!==g3)return;ladSob(false);clr();D.phase='open';render();nextStep();},11000);
+    return;}
   else if(v>=200000){pose('dk-cap','dk-cry');playSfx('loss');say(`ARRR! ${fm(v)} GONE FROM THE BOARD!`);
     D.phase='react';const g2=D.id=Math.random();render();
     panel('THE CAPTAIN REACTS...');
@@ -4161,7 +4267,9 @@ function revealChest(i){
     return;}
   else if(v>=5000&&v<=100000){say(`THAT CHEST HELD ${fm(v)}.`);$('dk-sayM').innerText='';playSfx('card');}
   else{pose('dk-cap','dk-bounce');pose('dk-mer','dk-cry');playSfx('win');both(`YO HO HO! ONLY ${fm(v)}! THE BIG TREASURE STAYS IN PLAY!`,"WAAAH! ME POOR POCKETS...");}
-  if(v===1){dollarTalk(()=>{D.phase='open';render();if(D.left>0)panel(`OPEN <b class="text-green-300">${D.left}</b> MORE<br>`+forfeitBtn());else offer();});return;}
+  if(v===1){
+    if(remaining().some(x=>R.includes(x))){ladJump(7000);setTimeout(()=>{if(D&&!D.quiet){say("GOODBYE... 1 DOLLAR!");lad("GOODBYE... ONE DOLLAR!",false,3500,"LADIES (SHOUTING SLIGHTLY)");}},3500);}
+    dollarTalk(()=>{D.phase='open';render();if(D.left>0)panel(`OPEN <b class="text-green-300">${D.left}</b> MORE<br>`+forfeitBtn());else offer();});return;}
   nextStep();
 }
 function dollarTalk(cb){
@@ -4182,9 +4290,9 @@ function announce(bigs,hi){
   if(asc.length>=2){
     const last=asc.pop();
     if(last>=1e6){pose('dk-cap','dk-scream',2500);playSfx('win');}
-    say(`OK, NOW WE HAVE ${asc.map(fm).join(', ')} AND ${W(last)}!`);
+    say(`${D.offers>0?'BUT THE REMAINING CHEST PRIZES SURVIVE, WE HAVE':'OK, NOW WE HAVE'} ${asc.map(fm).join(', ')} AND ${W(last)}!`);
   }
-  else if(asc.length===1){if(asc[0]>=1e6){pose('dk-cap','dk-scream',2500);playSfx('win');}say(`OK, THE ONLY BIG TREASURE LEFT IS ${W(asc[0])}!`);}
+  else if(asc.length===1){if(asc[0]>=1e6){pose('dk-cap','dk-scream',2500);playSfx('win');}say(`${D.offers>0?'BUT THE REMAINING CHEST PRIZE SURVIVES, WE HAVE ONLY':'OK, THE ONLY BIG TREASURE LEFT IS'} ${W(asc[0])}!`);}
   else if(hi>1000)say(`THE BIG ONES BE GONE, BUT THE BIGGEST TREASURE STILL HIDDEN IS ${full(hi)}!`);
   else say("THE BIG TREASURES BE GONE, MATEY. STAY SHARP!");
 }
@@ -4194,22 +4302,20 @@ function offer(){
   const bigs=remaining().filter(v=>v>=200000).sort((a,b)=>b-a),hi=Math.max(...remaining());
   panel(`<div>${bigs.length?'SURVIVING BIG PRIZES ($200K+)':'HIGHEST PRIZE LEFT'}</div><div class="text-yellow-300 text-[10px]">${bigs.length?bigs.slice().sort((a,b)=>a-b).map(v=>fm(v)).join('   '):hi>1000?fm(hi):'NONE LEFT'}</div>`+forfeitBtn());
   // merchant stays hidden while the captain reads the board, then the phone rings
-  const first=D.offers===0;   // the full greeting only happens on the 1st call
-  const ring=()=>{showMer(true);pose('dk-mer','dk-ring',2600);playSfx('card');};
+  const first=D.offers===0;   // every merchant call lasts 8 seconds, then the CAPTAIN announces the offer
+  const ring=(ms)=>{showMer(true);pose('dk-mer','dk-ring',ms||2600);playSfx('card');};
   const steps=first?[
     [0,()=>announce(bigs,hi)],
-    [3800,()=>{ring();say("OK, I GUESS THE MERCHANT IS CALLING... WHAT WILL HE SAY TONIGHT?");}],
-    [6800,()=>say("HELLO THERE, MERCHANT!")],
-    [8600,()=>say("GOOD EVENING.",'mer')],
-    [10400,()=>say("MERCHANT SAYS GOOD EVENING, PIRATE AND LADIES!")],
-    [12800,()=>lad("GOOD EVENING, MERCHANT!",true)],
-    [15600,()=>say("HMMM... LET ME COUNT ME COINS. HERE BE MY OFFER!",'mer')]]
+    [3400,()=>{ring();say("THE MERCHANT IS CALLING... HELLO THERE, MERCHANT!");}],
+    [5200,()=>say("GOOD EVENING, PIRATE AND LADIES!",'mer')],
+    [6600,()=>lad("GOOD EVENING, MERCHANT!",true)]]
   :[
     [0,()=>announce(bigs,hi)],
-    [3800,()=>{ring();say("THE MERCHANT IS CALLING AGAIN...");}],
-    [6000,()=>say("HERE BE MY OFFER, CAPTAIN!",'mer')]];
+    [3800,()=>{ring(6000);say("THE MERCHANT IS CALLING AGAIN...");$('dk-sayM').innerText='';pop(histHTML());}],
+    [9800,()=>{pop('');say("ANSWERING THE CALL... HELLO, MERCHANT!");}],
+    [11400,()=>say("GOOD EVENING, CAPTAIN. LET ME COUNT ME COINS...",'mer')]];
   steps.forEach(([ms,f])=>setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')f();},ms));
-  setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')makeOffer();},first?17400:8000);
+  setTimeout(()=>{if(D&&D.id===gid&&D.phase==='call')makeOffer();},first?8000:13600);
 }
 const INIT_AVG=ALL.reduce((a,b)=>a+b,0)/ALL.length;
 /* Every offer is different (it follows what is left on the board and how many calls have happened) and never goes above $10,000. */
@@ -4221,16 +4327,45 @@ function calcOffer(rem,n){
   const avg=rem.reduce((a,b)=>a+b,0)/rem.length,ratio=avg/INIT_AVG;
   return Math.min(9500,Math.max(1,nice(10000*Math.min(1,.12*ratio+.035*n))));
 }
+function pop(html,btns){
+  let o=$('dk-pop');
+  if(!o){o=document.createElement('div');o.id='dk-pop';o.style.cssText='position:absolute;left:0;right:0;top:0;bottom:0;z-index:58;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4)';$('dk-view').appendChild(o);}
+  o.style.display=html?'flex':'none';o.style.pointerEvents=btns?'auto':'none';o.innerHTML=html?`<div class="dkpop">${html}</div>`:'';
+}
+function histHTML(){
+  const h=D.hist||[];
+  if(h.length<2)return `<div class="dkpopt">MERCHANT'S OFFER HISTORY</div>`+h.map(e=>`<div class="dkhrow">ROUND ${e.r}: <b>${full(e.v)}</b></div>`).join('');
+  const col=arr=>`<div class="dkhcol"><div class="dkmq">${arr.map(e=>`<span>R${e.r} <b>${full(e.v)}</b></span>`).join('')}</div></div>`;
+  return `<div class="dkpopt">MERCHANT'S OFFER HISTORY</div><div class="dkhist">${col(h.filter((e,i)=>i%2===0))}${col(h.filter((e,i)=>i%2===1))}</div>`;
+}
 function makeOffer(){
-  const rem=remaining(),avg=rem.reduce((a,b)=>a+b,0)/rem.length;
+  const rem=remaining();
   D.offers++;D.final=others()===1;
   D.last=calcOffer(rem,D.offers);
-  D.phase='offer';render();clr();
-  both(D.final?"ONLY TWO CHESTS LEFT, MATEY! DROP OR KEEP?":"WELL, CAPTAIN? DROP OR KEEP?",`I'LL GIVE YE ${full(D.last)} FOR YER CHEST!`);
-  panel(`<div>📞 MERCHANT OFFERS <b class="text-yellow-300 text-[11px]">${full(D.last)}</b></div>
-   <div class="flex gap-2"><button type="button" class="vegas-btn !py-2 !px-4 !text-[10px]" onclick="dkDeal(1)">DROP (SELL)</button><button type="button" class="vegas-btn !py-2 !px-4 !text-[10px]" style="background:#2a4a8a;color:#fff" onclick="dkDeal(0)">KEEP</button></div>`+forfeitBtn());
+  (D.hist=D.hist||[]).push({r:D.offers,v:D.last});
+  const gid=D.id=Math.random(),at=(ms,f)=>setTimeout(()=>{if(D&&D.id===gid&&D.phase==='offer')f();},ms);
+  D.phase='offer';render();clr();showMer(true);
+  panel('THE MERCHANT HAS HIS OFFER READY...<br>'+forfeitBtn());
+  const valuePop=()=>{playSfx('win');pop(`<div class="dkpopt">MERCHANT'S OFFER</div><div class="dkpopv">${full(D.last)}</div>`);};
+  const choicePop=()=>pop(`<div class="dkpopt">${D.final?'ONLY TWO CHESTS LEFT!':'WHAT WILL YE DO?'}</div><div class="dkpops">MERCHANT'S OFFER: ${full(D.last)}</div>
+      <div style="display:flex;gap:14px;justify-content:center"><button type="button" class="dkpopb" style="background:#d4af37;color:#2a1500" onclick="dkDeal(1)">DROP (SELL)</button><button type="button" class="dkpopb" style="background:#2a4a8a;color:#fff" onclick="dkDeal(0)">KEEP</button></div>`,true);
+  $('dk-sayM').innerText='';
+  if(D.final&&rem.some(v=>v>=200000)){
+    // last offer while a big prize ($200K+) is still alive: the captain builds the tension
+    at(0,()=>say("PIRATE, HOLD TIGHT AND DECIDE CAREFULLY"));
+    at(3000,()=>say("MERCHANT'S LAST OFFER WILL BE..."));
+    at(6000,()=>{say(full(D.last));valuePop();});
+    at(9000,()=>{pop('');say("DROP, WE'RE GOING HOME, THAT MONEY IS YOURS");});
+    at(13000,()=>say("KEEP, WE GONNA OPEN THE CHEST THAT YOU CHOSE"));
+    at(17000,()=>{say("DROP OR KEEP!");choicePop();});
+    return;
+  }
+  say("MERCHANT'S OFFER WILL BE...");
+  at(2200,valuePop);
+  at(5000,()=>{say(D.final?"ONLY TWO CHESTS LEFT, MATEY! DROP OR KEEP?":"WELL, MATEY? DROP OR KEEP?");choicePop();});
 }
-function stage(html){let o=$('dk-stage');if(!o){o=document.createElement('div');o.id='dk-stage';o.style.cssText='position:absolute;left:0;right:0;top:110px;bottom:60px;z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:space-between;pointer-events:none;text-align:center';$('dk-view').appendChild(o);}o.style.display=html?'flex':'none';o.innerHTML=html||'';}
+
+function stage(html){let o=$('dk-stage');if(!o){o=document.createElement('div');o.id='dk-stage';o.style.cssText='position:absolute;left:0;right:0;top:0;bottom:0;z-index:16;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;padding-top:20px;pointer-events:none;text-align:center';($('dk-scene')||$('dk-view')).appendChild(o);}o.style.display=html?'flex':'none';o.innerHTML=html||'';}
 const BEACH_HTML=`<div style="position:absolute;left:10%;top:7%;width:34px;height:34px;border-radius:50%;background:#fff3a8;box-shadow:0 0 18px #fff3a8"></div>
 <div style="position:absolute;left:0;right:0;top:40%;height:14%;background:linear-gradient(#3aa0d6,#2a78a8)"></div>
 <div style="position:absolute;left:0;right:0;top:40%;height:14%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 8px,transparent 8px 26px);opacity:.5"></div>
@@ -4242,7 +4377,7 @@ const BEACH_HTML=`<div style="position:absolute;left:10%;top:7%;width:34px;heigh
 <div style="position:absolute;left:16%;bottom:9%;width:10px;height:6px;background:#f4d9c9;border-radius:50%"></div>
 <div style="position:absolute;left:80%;bottom:13%;width:8px;height:5px;background:#f0b8a8;border-radius:50%"></div>
 <div style="position:absolute;left:0;right:0;top:3%;text-align:center;font-family:'Press Start 2P',monospace;font-size:7px;color:#fff;text-shadow:1px 1px #000">CAPTAIN'S BEACH</div>
-<div id="dk-beach-cap" style="position:absolute;left:50%;bottom:3%;transform:translateX(-50%);width:140px"><div id="dk-hold"></div></div>`;
+<div id="dk-beach-cap" style="position:absolute;left:50%;bottom:7%;transform:translateX(-50%);width:140px"><div id="dk-hold"></div></div>`;
 function beach(on){
   const sc=$('dk-scene'),g=$('dk-grid'),cap=$('dk-cap');let b=$('dk-beach');
   if(on){
@@ -4253,15 +4388,35 @@ function beach(on){
     b.style.display='none';g.style.display='';if(sc.insertBefore)sc.insertBefore(cap,g);
   }
 }
-function holdChest(st){const h=$('dk-hold');if(h)h.innerHTML=st==null?'':`<div class="dkheld">${bigChest(st)}</div><div class="dkhand l"></div><div class="dkhand r"></div>`;}
-function stageCount(title,st,num){stage(`<div class="font-pixel" style="font-size:11px;color:#fff;text-shadow:2px 2px #000">${title}</div><div class="font-pixel" style="font-size:30px;color:#fff3c4;text-shadow:3px 3px #000">${num}</div>`);holdChest(st);}
+const ARMS=`<svg class="harms" viewBox="0 0 140 175" width="140" height="175">
+<g class="sarm"><path d="M104,99 L120,126 L114,166" fill="none" stroke="#1b0f1e" stroke-width="14" stroke-linejoin="round"/><path d="M104,99 L120,126 L114,166" fill="none" stroke="#c4202e" stroke-width="10" stroke-linejoin="round"/><rect x="92" y="165" width="26" height="12" fill="#f0b27a" stroke="#1b0f1e" stroke-width="2"/></g>
+<g class="oarm"><path d="M38,98 L20,122" fill="none" stroke="#1b0f1e" stroke-width="14"/><path d="M38,98 L20,122" fill="none" stroke="#c4202e" stroke-width="10"/><rect x="12" y="116" width="16" height="12" fill="#f0b27a" stroke="#1b0f1e" stroke-width="2"/></g></svg>`;
+function holdChest(st){
+  const h=$('dk-hold'),w=$('dk-beach-cap');if(!h)return;
+  if(st==null){h.innerHTML='';return;}
+  const down=st==='open';
+  const state=down?'open':st.includes('lift')?'lift':st.includes('crack')?'crack':st.includes('shake')?'shake':'closed';
+  h.className='h-'+state;if(w)w.className=down?'free':'holding';
+  h.innerHTML=`<div class="dkheld${down?' down':''}">${bigChest(st)}</div>`+(down?'':ARMS);
+}
+function beachGirls(){
+  const b=$('dk-beach');if(!b||$('dk-bgirls'))return;
+  const d=document.createElement('div');d.id='dk-bgirls';d.style.cssText='position:absolute;left:0;right:0;bottom:1%;height:48%;pointer-events:none;z-index:2';
+  let h='';
+  for(let i=0;i<26;i++){
+    const side=i<13?0:1,k=i%13,row=k<7?0:1,col=row?k-7:k,sk=SKIRTS[i%SKIRTS.length],x=side?(63+col*5+(row?2.5:0)):(1+col*5+(row?2.5:0));
+    h+=`<svg class="bgirl" viewBox="0 0 24 38" shape-rendering="crispEdges" style="--hair:${HAIRS[i%HAIRS.length]};--skirt:${sk[0]};--skirt2:${sk[1]};left:${x}%;bottom:${row?34:2}%;animation-delay:${(i%6)*0.07}s"><use href="#dkg"/></svg>`;
+  }
+  d.innerHTML=h;b.appendChild(d);
+}
+function stageCount(title,st,num){stage('');holdChest(st);}
 function bigChest(st){return `<div class="bigchest ${st}"><div class="glow"></div><div class="base"></div><div class="lid"></div><div class="band"></div><i class="coin" style="left:14px"></i><i class="coin" style="left:34px;animation-delay:.2s"></i><i class="coin" style="left:54px;animation-delay:.4s"></i></div>`;}
 function suspense(){
   beach(true);showMer(true);D.phase='reveal';const gid=D.id=Math.random();let t=15;render();
   both("EVEN WITH ALL THOSE DEALS, YE KEPT YER CHEST TIL THE END! I'M PROUD OF YER PIRATE'S SOUL, EVERYONE!","HMPH... *GRUMBLE*");
   const lines=[[13,"👏 APPLAUSE, EVERYONE! APPLAUSE TO THIS PIRATE!! 👏","*SLOW CLAP*... HMPH."],[10,"NOW WE OPEN YER CHOSEN CHEST! DURING 10 SECONDS... THE CHEST YE'LL BRING HOME IS:!!","*NERVOUS SWEATING*"],[3,"...IS...!!!","THE LOCK IS CREAKIN'..."]];
   const upd=()=>panel(`<div class="text-[10px]">${t>5?"👏 APPLAUSE FOR THIS PIRATE! 👏":"THE CAPTAIN OPENS YER CHEST... IT IS:"}</div>${bigChest(t>5?'':t>3?'shake':'shake crack')}<div class="text-yellow-300 text-[16px]">${t>5?'':t}</div>`);
-  const updS=()=>{stageCount(t>10?"CAPTAIN IS SPEAKING...":"THE CAPTAIN OPENS YER CHEST... IT IS:",t>10?'':t>5?'shake':'shake crack',t>10?'':t);panel(`<div class="text-[10px]">${t>10?"\ud83d\udc4f APPLAUSE FOR THIS PIRATE! \ud83d\udc4f":"OPENING YER CHEST #"+(D.mine+1)}</div>`);};
+  const updS=()=>{stageCount('',t>10?'':t>5?'shake':t>2?'shake crack':'shake lift',0);panel(`<div class="text-[10px]">${t>10?"\ud83d\udc4f APPLAUSE FOR THIS PIRATE! \ud83d\udc4f":"OPENING YER CHEST #"+(D.mine+1)}</div>`);};
   updS();
   const iv=setInterval(()=>{
     if(!D||D.id!==gid||D.phase!=='reveal'){clearInterval(iv);return;}
@@ -4292,7 +4447,7 @@ function ghostOpen(){
 }
 function ghostReveal(sec){
   sec=sec||5;beach(true);showMer(sec>5);D.phase='reveal';const gid=D.id=Math.random();let t=sec;render();
-  const upd=()=>{stageCount("THE CAPTAIN OPENS THE CHEST YE SOLD...",t>(sec>5?5:2)?'shake':'shake crack',t);panel(`<div class="text-[10px]">OPENING YER SOLD CHEST #${D.mine+1}</div>`);};
+  const upd=()=>{stageCount('',t>(sec>5?5:2)?'shake':t>1?'shake crack':'shake lift',0);panel(`<div class="text-[10px]">OPENING YER SOLD CHEST #${D.mine+1}</div>`);};
   upd();
   const iv=setInterval(()=>{
     if(!D||D.id!==gid||D.phase!=='reveal'){clearInterval(iv);return;}
@@ -4302,14 +4457,27 @@ function ghostReveal(sec){
     if(sec>5&&t===5)both("NOW... THE CHEST YE SOLD IS OPENIN' IN 5 SECONDS!!","*NERVOUS SWEATING*");
   },1000);
 }
+function chanceLine(){
+  if(!remaining().includes(1000000))return '';
+  const n=others(),p={10:25,7:50,5:75}[n];
+  if(p)return `DID YOU KNOW THERE IS A ${p}% CHANCE THAT 1 MILLION IS AT YOUR CHOSEN CHEST? SO GOOD LUCK, PIRATE!`;
+  if(n===3)return `THERE IS A 98% CHANCE THAT 1 MILLION IS AT YOUR CHOSEN CHEST. STAY ON HIGH HOPES IN THE END, PIRATE!`;
+  return '';
+}
 window.dkDeal=function(drop){
   if(!D||D.phase!=='offer')return;
   clr();
-  if(drop)return dropSell();
-  if(D.final)return suspense();
-  showMer(false);D.round++;D.phase='open';D.left=planned();render();playSfx('click');
-  both(`HARR! I KEEP MY CHEST! OPEN ${D.left} MORE.`,"HMPH. WE SHALL SEE, CAPTAIN...");
-  panel(`OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''}<br>`+forfeitBtn());
+  if(drop){pop('');return dropSell();}
+  D.phase='keeping';const gid=D.id=Math.random();render();
+  pop(`<div class="dkpopv" style="color:#60a5fa">KEEP!</div>`);playSfx('click');
+  setTimeout(()=>{if(!D||D.id!==gid)return;pop('');
+    if(D.final)return suspense();
+    showMer(false);D.round++;
+    const go=()=>{if(!D||D.id!==gid)return;D.phase='open';D.left=planned();render();
+      say(`ALRIGHT, LET'S OPEN ${D.left} CHEST${D.left>1?'S':''}!`);
+      panel(`OPEN <b class="text-green-300">${D.left}</b> CHEST${D.left>1?'S':''}<br>`+forfeitBtn());};
+    const ch=chanceLine();
+    if(ch){say(ch);panel('THE CAPTAIN HAS SOMETHING TO SAY...');setTimeout(go,5500);}else go();},1500);
 };
 function finish(pay,how){
   D.phase='done';D.reveal=true;
@@ -4320,8 +4488,9 @@ function finish(pay,how){
   const low=how==='DROP'?mine<pay:mine<D.v[oi];
   if(!D.ghost){playerCash+=pay;saveCash();}
   if(how==='KEEP'){
-    if(mine>=200000){pose('dk-cap','dk-dance');pose('dk-mer','dk-cry');playSfx('win');both(`MY CHEST HOLDS ${full(mine)}! YO HO HO!`,"WAAAH! ME POOR POCKETS...");}
-    else if(mine>=10000&&mine<=100000){pose('dk-cap','dk-clap');pose('dk-cap','dk-bounce');pose('dk-mer','dk-clap');pose('dk-mer','dk-bounce');playSfx('win');both(`MY CHEST HOLDS ${full(mine)}! WELL PLAYED, ME!`,"WELL PLAYED, CAPTAIN... *CLAP CLAP*");}
+    if(mine>=1000000){pose('dk-cap','dk-jump');pose('dk-mer','dk-cry');playSfx('win');both(`ONE MILLION DOLLARS!!! YO HO HO!`,"WAAAH! ME POOR POCKETS...");beachGirls();lad("ONE MILLION DOLLARS!!!",true,7000);}
+    else if(mine>=200000){pose('dk-cap','dk-jump');pose('dk-mer','dk-no');playSfx('win');both(`MY CHEST HOLDS ${full(mine)}! YO HO HO!`,'');$('dk-sayM').innerText='';}
+    else if(mine>=10000&&mine<=100000){pose('dk-cap','dk-clap');pose('dk-mer','dk-clap');playSfx('win');both(`MY CHEST HOLDS ${full(mine)}! WELL PLAYED, ME!`,"WELL PLAYED, CAPTAIN... *CLAP CLAP*");}
     else if(mine===1){pose('dk-cap','dk-cry');pose('dk-mer','dk-happy');playSfx('loss');both("SOB, WE HAVE A NEW BUCKIONNAIRE :((","HAHAHA! MINE ALL MINE!");}
     else{pose('dk-cap','dk-depr');pose('dk-mer','dk-happy');playSfx('loss');both('',"HAHAHA! MINE ALL MINE!");$('dk-sayC').innerText='';$('dk-cap').classList.remove('dk-talk');}
   }
@@ -4332,8 +4501,8 @@ function finish(pay,how){
   setGameMsg(`DROP OR KEEP: YOU WON ${full(pay)} (STAKE ${full(D.stake)}).`);
 
   holdChest('open');stage(`<div class="font-pixel" style="font-size:11px;color:#fff;text-shadow:2px 2px #000">THE CAPTAIN OPENED IT!</div><div class="font-pixel" style="font-size:20px;color:#ffd700;text-shadow:3px 3px #000">${full(mine)}</div>`);
-  panel(`<div class="text-yellow-300">YER CHEST HELD ${full(mine)}</div><div>${how==='DROP'?'SOLD FOR':'YER CHEST'} <b class="text-yellow-300 text-[12px]">${full(pay)}</b></div><div class="text-gray-300">STAKE WAS ${full(D.stake)} • NEW BANK ${full(playerCash)}</div>
-   <button type="button" class="vegas-btn !py-2 !px-4 !text-[10px]" onclick="dkClose()">BACK TO THE CASINO</button>`);
+  panel(`<div class="text-yellow-300">YER CHEST HELD ${full(mine)} • ${how==='DROP'?'SOLD FOR':'YOU WON'} <b class="text-[11px]">${full(pay)}</b></div><div class="text-gray-300">STAKE ${full(D.stake)} • NEW BANK ${full(playerCash)}</div>
+   <button type="button" class="vegas-btn !py-1 !px-4 !text-[10px]" onclick="dkClose()">BACK TO THE CASINO</button>`);
 }
 window.dkForfeit=function(){
   if(!D||D.phase==='done')return;
@@ -4355,5 +4524,45 @@ window.switchTab=function(id){if(D&&D.phase!=='done'&&id!=='drop'){setGameMsg("N
 window.__dk={get D(){return D;}};
 })();
 
+</script>
+<style>
+/* --- Responsive shell: the cabinet is scaled to fit ANY phone/tablet, never stretched.
+   Logical size is >= 900x506 (width grows on long phones, height grows on 4:3 tablets).
+   Portrait phones get the cabinet rotated so it plays like landscape. --- */
+html,body{overflow:hidden!important;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%;background:#06030a}
+.cabinet-scroll{position:relative!important;overflow:hidden!important}
+.arcade-enclosure{position:absolute!important;left:0;top:0;margin:0!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;transform-origin:0 0}
+/* canvases keep their true 16:9 shape and are centred (black bars instead of stretching) */
+.fit169{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block;width:min(var(--lw,900px),calc(var(--lh,506px)*16/9));height:auto;aspect-ratio:16/9}
+/* Monopoly board scales down to whatever height is left */
+.mono-board-box{height:100%;max-height:452px;aspect-ratio:1/1;width:auto}
+#game-monopoly>div.flex{min-height:0;justify-content:center}
+/* games must never push their own panels off-screen */
+.game-section{min-height:0}
+</style>
+<script>
+(function(){
+  var DW=900,DH=506;
+  function typing(){var a=document.activeElement;return a&&/^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName);}
+  function fit(){
+    var e=document.querySelector('.arcade-enclosure');if(!e)return;
+    var vw=window.innerWidth,vh=window.innerHeight;
+    var portrait=vh>vw*1.05;
+    var W0=portrait?vh:vw,H0=portrait?vw:vh;
+    var s=Math.min(W0/DW,H0/DH),LW=W0/s,LH=H0/s;
+    e.style.width=LW+'px';e.style.height=LH+'px';
+    e.style.transform=portrait?('translateX('+vw+'px) rotate(90deg) scale('+s+')'):('scale('+s+')');
+    var r=document.documentElement.style;r.setProperty('--lw',LW+'px');r.setProperty('--lh',LH+'px');
+    var m=document.getElementById('solitaire-modal');
+    if(m){
+      if(portrait){m.style.inset='auto';m.style.left='0';m.style.top='0';m.style.width=vh+'px';m.style.height=vw+'px';m.style.transformOrigin='0 0';m.style.transform='translateX('+vw+'px) rotate(90deg)';}
+      else{m.style.inset='';m.style.left='';m.style.top='';m.style.width='';m.style.height='';m.style.transform='';}
+    }
+  }
+  var t;function later(){clearTimeout(t);t=setTimeout(function(){if(!typing())fit();},60);}
+  window.addEventListener('resize',later);
+  window.addEventListener('orientationchange',function(){setTimeout(fit,250);});
+  document.addEventListener('DOMContentLoaded',fit);fit();setTimeout(fit,300);
+})();
 </script>
 </body></html>
